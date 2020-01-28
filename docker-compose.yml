@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+
+  solr:
+    image: solr:8.1
+    environment:
+      SOLR_HEAP: 4g
+    volumes:
+      - ./lib/jts-core-1.15.0.jar:/opt/solr-8.1.1/server/solr-webapp/webapp/WEB-INF/lib/jts-core-1.15.0.jar
+      # - ./data_solr:/var/solr
+      - ./solr8/mycores:/var/solr/data
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - nrm_index
+      - gnm_index
+    ports:
+      - 8983:8983
+
