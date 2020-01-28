@@ -1,0 +1,7 @@
+solr8/mycores/gnm_index/data
+solr8/mycores/nrm_index/data
+
+solr8/logs/*
+
+
+.DS_Store
