@@ -230,7 +230,7 @@
   <field name="_version_" type="long" multiValued="false" indexed="true" stored="true"/>
   <field name="id" type="string" indexed="true" required="true" stored="true"/>
   <field name="type" type="string" indexed="true" stored="true"/>
-  <field name="modified" type="string" indexed="false" stored="true"/>
+  <field name="modified" type="tdate" indexed="false" stored="true"/>
   <field name="language" type="string" indexed="false" stored="true"/>
   <field name="license" type="string" indexed="false" stored="true"/>
   <field name="rightsHolder" type="string" indexed="false" stored="true"/>
@@ -251,7 +251,7 @@
   <field name="occurrenceID" type="string" indexed="false" stored="true"/>
   <field name="catalogNumber" type="string" indexed="false" stored="true"/>
   <field name="recordNumber" type="string" indexed="false" stored="true"/>
-  <field name="recordedBy" type="string" indexed="false" stored="true"/>
+  <field name="recordedBy" type="string" multiValued="true" indexed="false" stored="true"/>
   <field name="individualCount" type="string" indexed="false" stored="true"/>
   <field name="organismQuantity" type="string" indexed="false" stored="true"/>
   <field name="organismQuantityType" type="string" indexed="false" stored="true"/>
@@ -280,7 +280,7 @@
   <field name="eventID" type="string" indexed="false" stored="true"/>
   <field name="parentEventID" type="string" indexed="false" stored="true"/>
   <field name="fieldNumber" type="string" indexed="false" stored="true"/>
-  <field name="eventDate" type="string" indexed="false" stored="true"/>
+  <field name="eventDate" type="tdate" indexed="false" stored="true"/>
   <field name="eventTime" type="string" indexed="false" stored="true"/>
   <field name="startDayOfYear" type="string" indexed="false" stored="true"/>
   <field name="endDayOfYear" type="string" indexed="false" stored="true"/>
@@ -309,8 +309,8 @@
   <field name="municipality" type="string" indexed="false" stored="true"/>
   <field name="locality" type="string" indexed="false" stored="true"/>
   <field name="verbatimLocality" type="string" indexed="false" stored="true"/>
-  <field name="minimumElevationInMeters" type="string" indexed="false" stored="true"/>
-  <field name="maximumElevationInMeters" type="string" indexed="false" stored="true"/>
+  <field name="minimumElevationInMeters" type="double" indexed="false" stored="true"/>
+  <field name="maximumElevationInMeters" type="double" indexed="false" stored="true"/>
   <field name="verbatimElevation" type="string" indexed="false" stored="true"/>
   <field name="minimumDepthInMeters" type="string" indexed="false" stored="true"/>
   <field name="maximumDepthInMeters" type="string" indexed="false" stored="true"/>
@@ -319,10 +319,10 @@
   <field name="maximumDistanceAboveSurfaceInMeters" type="string" indexed="false" stored="true"/>
   <field name="locationAccordingTo" type="string" indexed="false" stored="true"/>
   <field name="locationRemarks" type="string" indexed="false" stored="true"/>
-  <field name="decimalLatitude" type="string" indexed="false" stored="true"/>
-  <field name="decimalLongitude" type="string" indexed="false" stored="true"/>
+  <field name="decimalLatitude" type="double" indexed="false" stored="true"/>
+  <field name="decimalLongitude" type="double"  indexed="false" stored="true"/>
   <field name="geodeticDatum" type="string" indexed="false" stored="true"/>
-  <field name="coordinateUncertaintyInMeters" type="string" indexed="false" stored="true"/>
+  <field name="coordinateUncertaintyInMeters" type="double" indexed="false" stored="true"/>
   <field name="coordinatePrecision" type="string" indexed="false" stored="true"/>
   <field name="pointRadiusSpatialFit" type="string" indexed="false" stored="true"/>
   <field name="verbatimCoordinates" type="string" indexed="false" stored="true"/>
@@ -361,7 +361,7 @@
   <field name="identificationQualifier" type="string" indexed="false" stored="true"/>
   <field name="typeStatus" type="string" indexed="false" stored="true"/>
   <field name="identifiedBy" type="string" indexed="false" stored="true"/>
-  <field name="dateIdentified" type="string" indexed="false" stored="true"/>
+  <field name="dateIdentified" type="tdate" indexed="false" stored="true"/>
   <field name="identificationReferences" type="string" indexed="false" stored="true"/>
   <field name="identificationVerificationStatus" type="string" indexed="false" stored="true"/>
   <field name="identificationRemarks" type="string" indexed="false" stored="true"/>
@@ -393,7 +393,7 @@
   <field name="taxonRank" type="string" indexed="false" stored="true"/>
   <field name="verbatimTaxonRank" type="string" indexed="false" stored="true"/>
   <field name="scientificNameAuthorship" type="string" indexed="false" stored="true"/>
-  <field name="vernacularName" type="string" indexed="false" stored="true"/>
+  <field name="vernacularName" type="string"  multiValued="true" indexed="false" stored="true"/>
   <field name="nomenclaturalCode" type="string" indexed="false" stored="true"/>
   <field name="taxonomicStatus" type="string" indexed="false" stored="true"/>
   <field name="nomenclaturalStatus" type="string" indexed="false" stored="true"/>
