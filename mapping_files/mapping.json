@@ -1,0 +1,245 @@
+[{
+    "default": {
+      "modified": "timestampModified",
+      "catalogNumber": "catalogNumber",
+      "individualCount": "countAmt",
+      "occurrenceRemarks": "remarks",
+      "otherCatalogNumbers": "altCatalogNumber",
+      "fieldNumber": "fieldNumber",
+      "collection": {
+        "collectionCode": "code",
+        "datasetName": "description",
+        "basisOfRecord": "collectionType",
+        "discipline": {
+          "division": {
+            "institution": {
+              "license": "copyright",
+              "accessRights": "termsOfUse",
+              "institutionID": "altName",
+              "institutionCode": "code"
+            }
+          }
+        }
+      },
+      "collectionObjectAttribute": {
+        "sex": "text1",
+        "lifeStage": "text4",
+        "reproductiveCondition": "text3"
+      },
+      "collectingEvent": {
+        "eventDate": "startDate",
+        "eventTime": "startTime",
+        "startDayOfYear": "StartYear",
+        "endDayOfYear": "EndYear",
+        "eventTime": "startTime",
+        "verbatimEventDate": "verbatimDate",
+        "eventRemarks": "remarks",
+        "verbatimLocality": "verbatimLocality",
+        "collectingEventAttribute": {
+          "minimumDepthInMeters": "text1",
+          "maximumDepthInMeters": "text2",
+          "habitat": "text9"
+        },
+        "collectors": {
+          "agent": {
+            "recordedBy": "FullName"
+          }
+        },
+        "locality": {
+          "locality": "localityName",
+          "minimumElevationInMeters": "minElevation",
+          "maximumElevationInMeters": "maxElevation",
+          "verbatimElevation": "verbatimElevation",
+          "locationRemarks": "remarks",
+          "decimalLatitude": "latitude1",
+          "decimalLongitude": "longitude1",
+          "geodeticDatum": "datum",
+          "coordinateUncertaintyInMeters": "latLongAccuracy",
+          "geography": {
+            "higherGeography": "fullName",
+            "continent": "Continent",
+            "country": "Country",
+            "stateProvince": "State",
+            "county": "County"
+          },
+          "localitydetails": {
+            "waterBody": "waterBody",
+            "islandGroup": "islandGroup",
+            "island": "island"
+          },
+          "geocoorddetails": {
+            "georeferencedDate": "geoRefDetDate",
+            "georeferenceProtocol": "protocol",
+            "georeferenceSources": "source",
+            "georeferenceVerificationStatus": "geoRefVerificationStatus",
+            "georeferenceRemarks": "geoRefRemarks",
+            "agent": {
+              "georeferencedBy": "FullName"
+            }
+          }
+        }
+      },
+      "determinations": {
+        "identificationQualifier": "qualifier",
+        "typeStatus": "typeStatusName",
+        "dateIdentified": "determinedDate",
+        "identificationRemarks": "remarks",
+        "preferredTaxon": {
+          "scientificName": "fullName",
+          "scientificNameAuthorship": "author",
+          "taxonRemarks": "remarks",
+          "infraspecificEpithet": "Subspecies",
+          "specificEpithet": "Species",
+          "subgenus": "Subgenus",
+          "genus": "Genus",
+          "family": "Family",
+          "order": "Order",
+          "class": "Clazz",
+          "phylum": "Phylum",
+          "kingdom": "Kingdom",
+          "commonnametxs": {
+            "vernacularName": "name"
+          }
+        },
+        "determiner": {
+          "identifiedBy": "FullName"
+        }
+      },
+      "preparations": {
+        "prepType": {
+          "preparations": "name"
+        }
+      }
+    }
+  },
+  {
+    "nrm_393217": {
+      "modified": "timestampModified",
+      "catalogNumber": "catalogNumber",
+      "individualCount": "countAmt",
+      "occurrenceRemarks": "remarks",
+      "otherCatalogNumbers": "altCatalogNumber",
+      "fieldNumber": "fieldNumber",
+      "collection": {
+        "collectionCode": "code",
+        "datasetName": "description",
+        "basisOfRecord": "collectionType",
+        "discipline": {
+          "division": {
+            "institution": {
+              "license": "copyright",
+              "accessRights": "termsOfUse",
+              "institutionID": "altName",
+              "institutionCode": "code"
+            }
+          }
+        }
+      },
+      "collectionObjectAttribute": {
+        "sex": "text1",
+        "lifeStage": "text4",
+        "reproductiveCondition": "text3"
+      },
+      "collectingEvent": {
+        "eventDate": "startDate",
+        "eventTime": "startTime",
+        "startDayOfYear": "StartYear",
+        "endDayOfYear": "EndYear",
+        "verbatimEventDate": "verbatimDate",
+        "eventRemarks": "remarks",
+        "verbatimLocality": "verbatimLocality",
+        "collectingEventAttribute": {
+          "minimumDepthInMeters": "text1",
+          "maximumDepthInMeters": "text2",
+          "habitat": "text9"
+        },
+        "collectors": {
+          "agent": {
+            "recordedBy": "FullName"
+          }
+        },
+        "locality": {
+          "locality": "localityName",
+          "minimumElevationInMeters": "minElevation",
+          "maximumElevationInMeters": "maxElevation",
+          "verbatimElevation": "verbatimElevation",
+          "locationRemarks": "remarks",
+          "decimalLatitude": "latitude1",
+          "decimalLongitude": "longitude1",
+          "geodeticDatum": "datum",
+          "coordinateUncertaintyInMeters": "latLongAccuracy",
+          "geography": {
+            "higherGeography": "fullName",
+            "continent": "Continent",
+            "country": "Country",
+            "stateProvince": "State",
+            "county": "County"
+          },
+          "localitydetails": {
+            "waterBody": "waterBody",
+            "islandGroup": "islandGroup",
+            "island": "island"
+          },
+          "geocoorddetails": {
+            "georeferencedDate": "geoRefDetDate",
+            "georeferenceProtocol": "protocol",
+            "georeferenceSources": "source",
+            "georeferenceVerificationStatus": "geoRefVerificationStatus",
+            "georeferenceRemarks": "geoRefRemarks",
+            "agent": {
+              "georeferencedBy": "FullName"
+            }
+          }
+        }
+      },
+      "determinations": {
+        "identificationQualifier": "qualifier",
+        "typeStatus": "typeStatusName",
+        "dateIdentified": "determinedDate",
+        "identificationRemarks": "remarks",
+        "preferredTaxon": {
+          "scientificName": "fullName",
+          "scientificNameAuthorship": "author",
+          "taxonRemarks": "remarks",
+          "infraspecificEpithet": "Subspecies",
+          "specificEpithet": "Species",
+          "subgenus": "Subgenus",
+          "genus": "Genus",
+          "family": "Family",
+          "order": "Order",
+          "class": "Clazz",
+          "phylum": "Phylum",
+          "kingdom": "Kingdom",
+          "commonnametxs": {
+            "vernacularName": "name"
+          },
+          "taxonTreeDefItem": {
+            "taxonRank": "name"
+          }
+        },
+        "determiner": {
+          "identifiedBy": "FullName"
+        }
+      },
+      "preparations": {
+        "prepType": {
+          "preparations": "name"
+        }
+      }
+    }
+  }
+]
+
+
+
+
+
+
+// taxonRank=taxon.rankID, taxontreedefitem.name
+
+
+
+
+// previousIdentifications=determination.determinations
+
+
