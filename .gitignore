@@ -5,3 +5,16 @@ solr8/logs/*
 
 
 .DS_Store
+*/target/
+*/nb-configuration.xml
+
+
+/specify-data-model/*
+/solr-index-builder/*
+
+sample.json
+*.properties
+
+certs/*.crt
+certs/*.key
+project-initdata.yml
