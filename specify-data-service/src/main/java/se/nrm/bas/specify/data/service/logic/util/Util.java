@@ -10,16 +10,14 @@ import java.util.Date;
  * @author idali
  */
 public class Util {
-  
-  //  private final String strDefault = "/default_";
-//  private final String strProperties = ".properties"; 
-  
-  
-  
+ 
   private static Util instance = null;
   private StringBuilder mappingFilePathSB; 
   private final String underScore = "_"; 
   private final String defaultKey = "default";
+  private final String nrmIndex = "nrm_index";
+  private final String gnmIndex = "gnm_index";
+  private final String nrm = "nrm";
    
   private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 
@@ -30,6 +28,14 @@ public class Util {
       }
     }
     return instance;
+  }
+  
+  public String getIndexCore(String institution) {
+    return isNrm(institution) ? nrmIndex : gnmIndex;
+  }
+  
+  public boolean isNrm(String institution) {
+    return institution.equals(nrm);
   }
   
   public String getMappingKey(String institution, int collectionCode) {
@@ -79,21 +85,5 @@ public class Util {
     } else {
       return (String)value;
     }
-  } 
-  
-  
-//    public String buildPropertyFilePath(String basePath, String institution, int collectionId) { 
-//    mappingFilePathSB = new StringBuilder();
-//    mappingFilePathSB.append(basePath);
-//    if(collectionId == 0) { 
-//      mappingFilePathSB.append(strDefault);
-//      mappingFilePathSB.append(institution); 
-//    } else {
-//      mappingFilePathSB.append(institution);
-//      mappingFilePathSB.append(underScore);
-//      mappingFilePathSB.append(collectionId);
-//    } 
-//    mappingFilePathSB.append(strProperties);
-//    return mappingFilePathSB.toString();
-//  }
+  }  
 }
