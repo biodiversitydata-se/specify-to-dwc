@@ -35,6 +35,7 @@ public class DinaDaoImpl<T extends EntityBean> implements DinaDao<T>, Serializab
   private final String collectionMemberId = "collectionMemberID";
   private final String fromDateKey = "fromDate";
   private final String toDateKey = "toDate";
+  private final String idsKey = "ids";
  
   @PersistenceContext(unitName = "jpaNrmPU")
   private EntityManager nrmEntityManager;
@@ -51,28 +52,45 @@ public class DinaDaoImpl<T extends EntityBean> implements DinaDao<T>, Serializab
   private EntityManager getEntityManager(boolean isNrm) {
     return isNrm ? nrmEntityManager : gnmEntityManager;
   }
-
-  private EntityManager getEntityManager(String institution) {
-    return institution.contains(nrm) ? nrmEntityManager : gnmEntityManager;
-  }
-
+ 
   @Override
-  public Stream<T> findByCollectonId(int collectionId, String institution, Date fromDate, Date toDate) {
-    query = getEntityManager(institution)
+  public Stream<T> findByCollectonId(int collectionId, boolean isNrm, Date fromDate, Date toDate, List<Integer> ids) {
+    query = getEntityManager(isNrm)
             .createQuery(QueryBuilder.getInstance()
-                    .buildQuery(collectionId, fromDate, toDate))
-                    .setParameter(collectionMemberId, collectionId);
-            
-    if(fromDate != null) {
+                    .buildQuery(fromDate, toDate, ids != null))
+            .setParameter(collectionMemberId, collectionId);
+
+    if (fromDate != null) {
       query.setParameter(fromDateKey, fromDate);
-    }  
-    
-    if(toDate != null) {
+    }
+
+    if (toDate != null) {
       query.setParameter(toDateKey, toDate);
-    }  
+    }
+
+    if (ids != null) {
+      query.setParameter(idsKey, ids);
+    }
     return query.getResultStream();
   }
- 
+  
+  
+  @Override
+  public List<Integer> findAllIds(int collectionMemberID, Date fromDate, Date toDate, boolean isNrm) {
+    
+    query = getEntityManager(isNrm)
+              .createQuery(QueryBuilder.getInstance().buildGetIdsQuery(toDate, toDate))
+              .setParameter(collectionMemberId, collectionMemberID);
+    
+    if (fromDate != null) {
+      query.setParameter(fromDateKey, fromDate);
+    } 
+    if (toDate != null) {
+      query.setParameter(toDateKey, toDate);
+    } 
+    return query.getResultList(); 
+  } 
+  
   @Override
   public Stream<T> findAll(Class<T> clazz, boolean isNrm) {
     log.info("findAll : {} -- {}", clazz, isNrm);
@@ -80,42 +98,7 @@ public class DinaDaoImpl<T extends EntityBean> implements DinaDao<T>, Serializab
     query = getEntityManager(isNrm).createNamedQuery(clazz.getSimpleName() + ".findAll");
     return query.getResultStream();
   }
-
-  @Override
-  public List<Integer> findAllIds(int collectionMemberID, boolean isNrm) {
-    return getEntityManager(isNrm).createNamedQuery("Collectionobject.findAllIds")
-            .setParameter(collectionMemberId, collectionMemberID).getResultList();
-  }
-
-  @Override
-  public Stream<T> findByCollectionCode(int collectionId, List<Integer> ids, boolean isNrm) { 
-    query = getEntityManager(isNrm)
-            .createQuery(QueryBuilder.getInstance()
-                    .buildFindCollectionObjectsByCollectionCodeQuery(collectionId, ids != null))
-            .setParameter(collectionMemberId, collectionId);
-    if(ids != null) {
-      query.setParameter("ids", ids);
-    } 
-    return query.getResultStream();
-  }
   
-  @Override
-  public Stream<T> findGeographyParents(int geographyId, boolean isNrm) {
-    query = getEntityManager(isNrm)
-            .createQuery(QueryBuilder.getInstance().buildGeographyParentQuery())
-            .setParameter("geographyId", geographyId);
-    return query.getResultStream();
-  }
-  
-  @Override
-  public Stream<T> findTaxonParents(int taxonId, boolean isNrm) {
-    query = getEntityManager(isNrm)
-            .createQuery(QueryBuilder.getInstance().buildTaxonParentsQuery())
-            .setParameter("taxonId", taxonId);
-    return query.getResultStream();
-  }
- 
-
   @Override
   public int getCollectionCount(int collectionMemberID, boolean isNrm) {
     log.info("getCollectionCount: {} ", collectionMemberID);
@@ -132,22 +115,7 @@ public class DinaDaoImpl<T extends EntityBean> implements DinaDao<T>, Serializab
     }
     return number.intValue();
   }
-
-  @Override
-  public List<T> findSMTPCollectionEventData() { 
-    return getEntityManager(true)
-            .createQuery(QueryBuilder.getInstance().buildFindSMTPEventDataQuery())
-            .getResultList();
-  }
-
-  @Override
-  public List<T> findOverdueLoans() { 
-    return nrmEntityManager
-            .createQuery(QueryBuilder.getInstance().buildOverdueLoanQuery())
-            .setParameter("currentDueDate", new Date())
-            .getResultList();
-  }
-
+  
   public Throwable getRootCause(final Throwable throwable) {
     final List<Throwable> list = getThrowableList(throwable);
     return list.size() < 2 ? null : (Throwable) list.get(list.size() - 1);
