@@ -35,14 +35,23 @@ class QueryBuilder {
     }
     return instance;
   }
-
-  /** 
-   *
-   * @param collectionId
-   * @param isFilterWithIds
-   * @return
-   */
-  public String buildQuery(int collectionId, Date startDate, Date toDate) {
+  
+  public String buildGetIdsQuery(Date startDate, Date toDate) {
+    sb = new StringBuilder();
+    sb.append("SELECT DISTINCT c FROM Collectionobject c ");
+    sb.append("WHERE c.collectionMemberID = :collectionMemberID ");
+    if(startDate != null && toDate != null) {
+      sb.append("AND c.timestampCreated BETWEEN :fromDate AND :toDate ");
+    } else if(startDate != null && toDate == null) {
+      sb.append("AND c.timestampCreated > :fromDate ");
+    } else if(startDate == null && toDate != null) {
+      sb.append("AND c.timestampCreated < :toDate ");
+    } 
+    sb.append("ORDER BY c.collectionObjectID"); 
+    return sb.toString();
+  }
+  
+  public String buildBaseQuery() {
     sb = new StringBuilder();
     sb.append("SELECT DISTINCT c FROM Collectionobject c ")
             .append("LEFT JOIN FETCH c.collectionObjectAttribute ")
@@ -83,132 +92,32 @@ class QueryBuilder {
             .append("LEFT JOIN FETCH d.determiner ") 
             .append("LEFT JOIN FETCH p.prepType ")   
             .append("WHERE c.collectionMemberID = :collectionMemberID ");
-//            .append("AND d.isCurrent is true "); 
+    //            .append("AND d.isCurrent is true "); 
+    return sb.toString();
+  }
+   
+  /** 
+   *
+   * @param collectionId
+   * @param isFilterWithIds
+   * @return
+   */
+  public String buildQuery(Date startDate, Date toDate, boolean filterWithIds) {
+    buildBaseQuery(); 
     if(startDate != null && toDate != null) {
       sb.append("AND c.timestampCreated BETWEEN :fromDate AND :toDate ");
-    }        
-    sb.append("ORDER BY c.collectionObjectID");   
-
-    return sb.toString();
-  }
-
-  public String buildFindCollectionObjectsByCollectionCodeQuery(int collectionId, boolean isFilterWithIds) {
-    sb = new StringBuilder();
-    sb.append("SELECT DISTINCT c FROM Collectionobject c ")
-            .append("LEFT JOIN FETCH c.accession ")
-            .append("LEFT JOIN FETCH c.collectionObjectAttribute ")
-            .append("LEFT JOIN FETCH c.determinations d ")
-            .append("LEFT JOIN FETCH c.collection ct ")
-            .append("LEFT JOIN FETCH c.collectingEvent ce ")
-            .append("LEFT JOIN FETCH c.preparations p ")
-            .append("LEFT JOIN FETCH c.collectionobjectattachments ca ")
-            .append("LEFT JOIN FETCH ce.locality lc ")
-            .append("LEFT JOIN FETCH ce.collectors clts ")
-            .append("LEFT JOIN FETCH clts.agent ")
-            .append("LEFT JOIN FETCH lc.geography g ")
-            .append("LEFT JOIN FETCH g.parent gp ")
-            .append("LEFT JOIN FETCH gp.parent gpp ")
-            .append("LEFT JOIN FETCH gpp.parent gppp ")
-            .append("LEFT JOIN FETCH gppp.parent gpppp ")
-            .append("LEFT JOIN FETCH gpppp.parent gppppp ")
-            .append("LEFT JOIN FETCH gppppp.parent gpppppp ")
-            .append("LEFT JOIN FETCH d.preferredTaxon pt ")
-            .append("LEFT JOIN FETCH pt.commonnametxs cn ")
-            .append("LEFT JOIN FETCH pt.synomys ")
-            .append("LEFT JOIN FETCH pt.parent ptp ")
-            .append("LEFT JOIN FETCH ptp.parent ptpp ")
-            .append("LEFT JOIN FETCH ptpp.parent ptppp ")
-            .append("LEFT JOIN FETCH ptppp.parent ptpppp ")
-            .append("LEFT JOIN FETCH ptpppp.parent ptppppp ")
-            .append("LEFT JOIN FETCH ptppppp.parent ptpppppp ")
-            .append("LEFT JOIN FETCH ptpppppp.parent ptppppppp ")
-            .append("LEFT JOIN FETCH ptppppppp.parent ptpppppppp ")
-            .append("LEFT JOIN FETCH ptpppppppp.parent ptppppppppp ")
-            .append("LEFT JOIN FETCH ptppppppppp.parent ptpppppppppp ")
-            .append("LEFT JOIN FETCH d.taxon t ")
-            .append("LEFT JOIN FETCH t.synomys ")
-            .append("LEFT JOIN FETCH t.commonnametxs cn ")
-            //    if (collectionId != ornithologyCollectionId) {
-            //      sb.append("LEFT JOIN FETCH t.commonnametxs cn ");
-            //    }
-            .append("LEFT JOIN FETCH t.parent tp ")
-            .append("LEFT JOIN FETCH tp.parent tpp ")
-            .append("LEFT JOIN FETCH tpp.parent tppp ")
-            .append("LEFT JOIN FETCH tppp.parent tpppp ")
-            .append("LEFT JOIN FETCH tpppp.parent tppppp ")
-            .append("LEFT JOIN FETCH tppppp.parent tpppppp ")
-            .append("LEFT JOIN FETCH tpppppp.parent tppppppp ")
-            .append("LEFT JOIN FETCH tppppppp.parent tpppppppp ")
-            .append("LEFT JOIN FETCH tpppppppp.parent tppppppppp ")
-            .append("LEFT JOIN FETCH tppppppppp.parent tpppppppppp ")
-            .append("LEFT JOIN FETCH d.determiner ")
-            .append("LEFT JOIN FETCH p.storage ")
-            .append("LEFT JOIN FETCH p.prepType ")
-            .append("LEFT JOIN FETCH ca.attachment a ")
-            .append("LEFT JOIN FETCH a.attachmentImageAttribute ai ")
-            .append("LEFT JOIN FETCH ai.morphBankWiew ")
-            .append("LEFT JOIN FETCH c.dnasequences dna ")
-            .append("where c.collectionMemberID = :collectionMemberID ");
-    if (isFilterWithIds) {
+    } else if(startDate != null && toDate == null) {
+      sb.append("AND c.timestampCreated > :fromDate ");
+    } else if(startDate == null && toDate != null) {
+      sb.append("AND c.timestampCreated < :toDate ");
+    } 
+    if (filterWithIds) {
       sb.append("AND c.collectionObjectID in :ids ");
     }
-    sb.append("ORDER BY c.collectionObjectID");
-
+    sb.append("ORDER BY c.collectionObjectID ");    
     return sb.toString();
   }
-
-  public String buildGeographyParentQuery() {
-    sb = new StringBuilder();
-    sb.append("SELECT DISTINCT g FROM Geography g ");
-    sb.append("LEFT JOIN FETCH g.parent gp ")
-            .append("LEFT JOIN FETCH gp.parent gpp ")
-            .append("LEFT JOIN FETCH gpp.parent gppp ")
-            .append("LEFT JOIN FETCH gppp.parent gpppp ")
-            .append("LEFT JOIN FETCH gpppp.parent gppppp ")
-            .append("LEFT JOIN FETCH gppppp.parent gpppppp ")
-            .append("WHERE g.geographyID = :geographyId ");
-    return sb.toString();
-  }
-
-  public String buildTaxonParentsQuery() {
-    sb = new StringBuilder();
-    sb.append("SELECT DISTINCT t FROM Taxon t ");
-    sb.append("LEFT JOIN FETCH t.parent tp ");
-    sb.append("LEFT JOIN FETCH tp.parent tpp ");
-    sb.append("LEFT JOIN FETCH tpp.parent tppp ");
-    sb.append("LEFT JOIN FETCH tppp.parent tpppp ");
-    sb.append("LEFT JOIN FETCH tpppp.parent tppppp ");
-    sb.append("LEFT JOIN FETCH tppppp.parent tpppppp ");
-    sb.append("LEFT JOIN FETCH tpppppp.parent tppppppp ");
-    sb.append("LEFT JOIN FETCH tppppppp.parent tpppppppp ");
-    sb.append("LEFT JOIN FETCH tpppppppp.parent tppppppppp ");
-    sb.append("LEFT JOIN FETCH tppppppppp.parent tpppppppppp ");
-    sb.append("WHERE t.taxonID = :taxonId ");
-    return sb.toString();
-  }
-
-  public String buildFindSMTPEventDataQuery() {
-    sb = new StringBuilder();
-    sb.append("SELECT DISTINCT ce FROM Collectingevent ce ")
-            .append("LEFT JOIN FETCH ce.locality lc ")
-            .append("LEFT JOIN FETCH lc.geography g ")
-            .append("LEFT JOIN FETCH g.parent gp ")
-            .append("LEFT JOIN FETCH gp.parent gpp ")
-            .append("LEFT JOIN FETCH gpp.parent gppp ")
-            .append("LEFT JOIN FETCH gppp.parent gpppp ")
-            .append("LEFT JOIN FETCH gpppp.parent gppppp ")
-            .append("LEFT JOIN FETCH gppppp.parent gpppppp ")
-            .append("where ce.stationFieldNumber like 'Event ID %'");
-    return sb.toString();
-  }
-
-  public String buildOverdueLoanQuery() {
-    sb = new StringBuilder();
-    sb.append("SELECT DISTINCT l FROM Loan l ")
-            .append("LEFT JOIN FETCH l.loanagentList a ")
-            .append("where l.isClosed = false AND l.currentDueDate  <= :currentDueDate");
-    return sb.toString();
-  }
+  
 
   /**
    * Build a namedQuery with parameters
