@@ -2,6 +2,19 @@ version: '3.7'
 
 services:
 
+
+  specifyService:
+    image: dina/specify-service:v0.1
+    container_name: specifyService
+    restart: always
+    depends_on:
+      - solr
+    volumes:
+      - ./project-initdata.yml:/usr/src/myapp/project-initdata.yml
+    extra_hosts:
+      # - "dina-db.nrm.se:172.16.0.86"
+      - db:db
+
   solr:
     image: solr:8.1
     environment:

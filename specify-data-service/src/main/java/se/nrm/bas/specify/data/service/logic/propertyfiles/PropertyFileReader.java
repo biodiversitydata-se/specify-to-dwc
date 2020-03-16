@@ -19,10 +19,8 @@ public class PropertyFileReader {
   private InitialProperties properties;
      
   public Map<String, String> read(String institution, int collectionId) {  
-    
-    String basePath = properties.getDefaultMappingFilePath();
-    String mappingFilePath = "";
-//            Util.getInstance().buildPropertyFilePath(basePath, institution, collectionId);
+     
+    String mappingFilePath = ""; 
     
     Properties props = new Properties(); 
     try {

@@ -88,14 +88,7 @@ public class Taxonattachment extends BaseEntity {
   public void setOrdinal(int ordinal) {
     this.ordinal = ordinal;
   }
-
-//    public String getRemarks() {
-//        return remarks;
-//    }
-//
-//    public void setRemarks(String remarks) {
-//        this.remarks = remarks;
-//    }
+ 
   public Taxon getTaxon() {
     return taxon;
   }

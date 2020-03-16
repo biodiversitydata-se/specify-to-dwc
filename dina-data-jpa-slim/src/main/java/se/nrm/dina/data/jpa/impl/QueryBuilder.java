@@ -3,9 +3,8 @@ package se.nrm.dina.data.jpa.impl;
 import java.util.Date;
 import java.util.Map;
 import javax.persistence.Query;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils; 
 import se.nrm.dina.data.exceptions.DinaException;
 import se.nrm.dina.data.util.HelpClass;
 import se.nrm.dina.data.util.JpaReflectionHelper;
@@ -16,9 +15,8 @@ import se.nrm.dina.data.util.ValueType;
  *
  * @author idali
  */
-class QueryBuilder {
-
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+@Slf4j
+class QueryBuilder { 
 
   private final String BETWEEN = "between";
   private final String GREAT_THAN = "gt";
@@ -37,17 +35,18 @@ class QueryBuilder {
   }
   
   public String buildGetIdsQuery(Date startDate, Date toDate) {
+    log.info("buildGetIdsQuery : {} -- {}", startDate, toDate);
     sb = new StringBuilder();
-    sb.append("SELECT DISTINCT c FROM Collectionobject c ");
+    sb.append("SELECT c.collectionObjectID FROM Collectionobject c ");
     sb.append("WHERE c.collectionMemberID = :collectionMemberID ");
     if(startDate != null && toDate != null) {
-      sb.append("AND c.timestampCreated BETWEEN :fromDate AND :toDate ");
+      sb.append("AND c.timestampModified BETWEEN :fromDate AND :toDate ");
     } else if(startDate != null && toDate == null) {
-      sb.append("AND c.timestampCreated > :fromDate ");
+      sb.append("AND c.timestampModified > :fromDate ");
     } else if(startDate == null && toDate != null) {
-      sb.append("AND c.timestampCreated < :toDate ");
+      sb.append("AND c.timestampModified < :toDate ");
     } 
-    sb.append("ORDER BY c.collectionObjectID"); 
+    sb.append("ORDER BY c.collectionObjectID");  
     return sb.toString();
   }
   
@@ -91,8 +90,8 @@ class QueryBuilder {
             .append("LEFT JOIN FETCH ptppppppppp.parent ptpppppppppp ") 
             .append("LEFT JOIN FETCH d.determiner ") 
             .append("LEFT JOIN FETCH p.prepType ")   
-            .append("WHERE c.collectionMemberID = :collectionMemberID ");
-    //            .append("AND d.isCurrent is true "); 
+            .append("WHERE c.collectionMemberID = :collectionMemberID ")
+            .append("AND d.isCurrent = 1 "); 
     return sb.toString();
   }
    
@@ -105,11 +104,11 @@ class QueryBuilder {
   public String buildQuery(Date startDate, Date toDate, boolean filterWithIds) {
     buildBaseQuery(); 
     if(startDate != null && toDate != null) {
-      sb.append("AND c.timestampCreated BETWEEN :fromDate AND :toDate ");
+      sb.append("AND c.timestampModified BETWEEN :fromDate AND :toDate ");
     } else if(startDate != null && toDate == null) {
-      sb.append("AND c.timestampCreated > :fromDate ");
+      sb.append("AND c.timestampModified > :fromDate ");
     } else if(startDate == null && toDate != null) {
-      sb.append("AND c.timestampCreated < :toDate ");
+      sb.append("AND c.timestampModified < :toDate ");
     } 
     if (filterWithIds) {
       sb.append("AND c.collectionObjectID in :ids ");
@@ -129,7 +128,7 @@ class QueryBuilder {
    * @return Query
    */
   public Query createQuery(Query query, Class clazz, Map<String, String> parameters, boolean isExact) {
-    logger.info("createQuery : {}", isExact);
+    log.info("createQuery : {}", isExact);
 
     if (parameters != null) {
       parameters.entrySet()
@@ -204,7 +203,7 @@ class QueryBuilder {
   }
 
   private void setDefaultValue(String fieldName, String value, Query query, boolean isExact) {
-    logger.info("setDefaultValue : {} -- {}", value, isExact);
+    log.info("setDefaultValue : {} -- {}", value, isExact);
     if (isExact) {
       query.setParameter(fieldName, value);
     } else {

@@ -153,15 +153,7 @@ public class Determination extends BaseEntity {
   public void setQualifier(String qualifier) {
     this.qualifier = qualifier;
   }
-
-//    public String getMethod() {
-//        return method;
-//    }
-//
-//    public void setMethod(String method) {
-//        this.method = method;
-//    }
-// 
+ 
   public String getRemarks() {
     return remarks;
   }

@@ -6,6 +6,7 @@
       "occurrenceRemarks": "remarks",
       "otherCatalogNumbers": "altCatalogNumber",
       "fieldNumber": "fieldNumber",
+      "guid": "guid",
       "collection": {
         "collectionCode": "code",
         "datasetName": "description",
@@ -94,7 +95,7 @@
           "genus": "Genus",
           "family": "Family",
           "order": "Order",
-          "class": "Clazz",
+          "clazz": "Clazz",
           "phylum": "Phylum",
           "kingdom": "Kingdom",
           "commonnametxs": {
@@ -113,13 +114,14 @@
     }
   },
   {
-    "nrm_393217": {
+    "nrm_163840": {
       "modified": "timestampModified",
       "catalogNumber": "catalogNumber",
       "individualCount": "countAmt",
       "occurrenceRemarks": "remarks",
       "otherCatalogNumbers": "altCatalogNumber",
       "fieldNumber": "fieldNumber",
+      "guid": "guid",
       "collection": {
         "collectionCode": "code",
         "datasetName": "description",
@@ -207,7 +209,7 @@
           "genus": "Genus",
           "family": "Family",
           "order": "Order",
-          "class": "Clazz",
+          "clazz": "Clazz",
           "phylum": "Phylum",
           "kingdom": "Kingdom",
           "commonnametxs": {

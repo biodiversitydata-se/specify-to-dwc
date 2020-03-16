@@ -86,13 +86,6 @@ public class Collectionobjectcitation extends BaseEntity {
     this.collectionMemberID = collectionMemberID;
   }
 
-//    public String getRemarks() {
-//        return remarks;
-//    }
-//
-//    public void setRemarks(String remarks) {
-//        this.remarks = remarks;
-//    }
   public Collectionobject getCollectionObject() {
     return collectionObject;
   }

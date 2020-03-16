@@ -229,8 +229,8 @@
   <fieldType name="tlong" class="solr.LongPointField" omitNorms="true" positionIncrementGap="0"/>
   <field name="_version_" type="long" multiValued="false" indexed="true" stored="true"/>
   <field name="id" type="string" indexed="true" required="true" stored="true"/>
-  <field name="type" type="string" indexed="true" stored="true"/>
-  <field name="modified" type="tdate" indexed="false" stored="true"/>
+  <field name="type" type="string" indexed="false" stored="true"/>
+  <field name="modified" type="tdate" indexed="true" stored="true"/>
   <field name="language" type="string" indexed="false" stored="true"/>
   <field name="license" type="string" indexed="false" stored="true"/>
   <field name="rightsHolder" type="string" indexed="false" stored="true"/>
@@ -251,7 +251,7 @@
   <field name="occurrenceID" type="string" indexed="false" stored="true"/>
   <field name="catalogNumber" type="string" indexed="false" stored="true"/>
   <field name="recordNumber" type="string" indexed="false" stored="true"/>
-  <field name="recordedBy" type="string" multiValued="true" indexed="false" stored="true"/>
+  <field name="recordedBy" type="string" indexed="false" stored="true"/>
   <field name="individualCount" type="string" indexed="false" stored="true"/>
   <field name="organismQuantity" type="string" indexed="false" stored="true"/>
   <field name="organismQuantityType" type="string" indexed="false" stored="true"/>
@@ -383,7 +383,7 @@
   <field name="higherClassification" type="string" indexed="false" stored="true"/>
   <field name="kingdom" type="string" indexed="false" stored="true"/>
   <field name="phylum" type="string" indexed="false" stored="true"/>
-  <field name="class" type="string" indexed="false" stored="true"/>
+  <field name="clazz" type="string" indexed="false" stored="true"/>
   <field name="order" type="string" indexed="false" stored="true"/>
   <field name="family" type="string" indexed="false" stored="true"/>
   <field name="genus" type="string" indexed="false" stored="true"/>
@@ -393,9 +393,10 @@
   <field name="taxonRank" type="string" indexed="false" stored="true"/>
   <field name="verbatimTaxonRank" type="string" indexed="false" stored="true"/>
   <field name="scientificNameAuthorship" type="string" indexed="false" stored="true"/>
-  <field name="vernacularName" type="string" multiValued="true" indexed="false" stored="true"/>
+  <field name="vernacularName" type="string" indexed="false" stored="true"/>
   <field name="nomenclaturalCode" type="string" indexed="false" stored="true"/>
   <field name="taxonomicStatus" type="string" indexed="false" stored="true"/>
   <field name="nomenclaturalStatus" type="string" indexed="false" stored="true"/>
   <field name="taxonRemarks" type="string" indexed="false" stored="true"/>
+  <field name="guid" type="string" indexed="false" stored="true"/>
 </schema>

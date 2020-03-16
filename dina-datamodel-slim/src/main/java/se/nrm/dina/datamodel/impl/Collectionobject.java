@@ -87,6 +87,10 @@ public class Collectionobject extends BaseEntity {
   @Size(max = 50)
   @Column(name = "FieldNumber")
   private String fieldNumber;
+  
+  @Size(max = 128)
+  @Column(name = "GUID")
+  private String guid;
 
   @Lob
   @Size(max = 65535)
@@ -175,7 +179,8 @@ public class Collectionobject extends BaseEntity {
 
   @Override
   public String getIdentityString() {
-    return String.valueOf(collectionObjectID);
+    return guid;
+//    return String.valueOf(collectionObjectID);
   }
 
   @Override
@@ -206,16 +211,7 @@ public class Collectionobject extends BaseEntity {
   public void setAltCatalogNumber(String altCatalogNumber) {
     this.altCatalogNumber = altCatalogNumber;
   }
-//
-//  public String getAvailability() {
-//    return availability;
-//  }
-//
-//  public void setAvailability(String availability) {
-//    this.availability = availability;
-//  }
-  
-  
+
   public Integer getCountAmt() {
     return countAmt;
   }
@@ -272,15 +268,15 @@ public class Collectionobject extends BaseEntity {
   public void setRemarks(String remarks) {
     this.remarks = remarks;
   }
+  
+  public String getGuid() {
+    return guid;
+  }
 
-//  public String getOcr() {
-//    return ocr;
-//  }
-//
-//  public void setOcr(String ocr) {
-//    this.ocr = ocr;
-//  }
-
+  public void setGuid(String guid) {
+    this.guid = guid;
+  }
+ 
   public String getText1() {
     return text1;
   }
