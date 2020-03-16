@@ -149,14 +149,7 @@ public class Geographytreedefitem extends BaseEntity {
   public void setRankID(int rankID) {
     this.rankID = rankID;
   }
-
-//    public String getRemarks() {
-//        return remarks;
-//    }
-//
-//    public void setRemarks(String remarks) {
-//        this.remarks = remarks;
-//    }
+ 
   public String getTitle() {
     return title;
   }

@@ -232,50 +232,7 @@ public class Collectingeventattribute extends BaseEntity {
   public void setYesNo3(Boolean yesNo3) {
     this.yesNo3 = yesNo3;
   }
-
-//    @XmlIDREF
-//    public Taxon getHostTaxonID() {
-//        return hostTaxonID;
-//    }
-//
-//    public void setHostTaxonID(Taxon hostTaxonID) {
-//        this.hostTaxonID = hostTaxonID;
-//    }
-//    @XmlIDREF
-//    public Discipline getDisciplineID() {
-//        return disciplineID;
-//    }
-//
-//    public void setDisciplineID(Discipline disciplineID) {
-//        this.disciplineID = disciplineID;
-//    }
-//
-//    @XmlIDREF
-//    public Agent getModifiedByAgentID() {
-//        return modifiedByAgentID;
-//    }
-//
-//    public void setModifiedByAgentID(Agent modifiedByAgentID) {
-//        this.modifiedByAgentID = modifiedByAgentID;
-//    }
-//  @XmlIDREF
-//  public Agent getCreatedByAgentID() {
-//    return createdByAgentID;
-//  }
-//
-//  public void setCreatedByAgentID(Agent createdByAgentID) {
-//    this.createdByAgentID = createdByAgentID;
-//  }
-
-//  @XmlTransient
-//  public List<Collectingevent> getCollectingeventList() {
-//    return collectingeventList;
-//  }
-//
-//  public void setCollectingeventList(List<Collectingevent> collectingeventList) {
-//    this.collectingeventList = collectingeventList;
-//  }
-
+  
   @Override
   public int hashCode() {
     int hash = 0;

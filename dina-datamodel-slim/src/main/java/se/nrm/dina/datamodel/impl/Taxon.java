@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Size; 
 
 /**
  *
@@ -271,7 +271,7 @@ public class Taxon extends BaseEntity {
 
   public String getSubspecies() {
     if (rank == 230) {
-      return fullName;
+      return name;
     }
     if (rank > 230) {
       Taxon newParent = parent;
@@ -279,15 +279,15 @@ public class Taxon extends BaseEntity {
         newParent = newParent.getParent();
       }
       if (newParent.getRank() == 230) {
-        return newParent.getFullName();
+        return newParent.getName();
       }
     }
     return null;
   }
   
-  public String getSpecies() {
-    if (rank == 220) {
-      return fullName;
+  public String getSpecies() { 
+    if (rank == 220) { 
+      return name;
     }
     if (rank > 220) {
       Taxon newParent = parent;
@@ -295,7 +295,7 @@ public class Taxon extends BaseEntity {
         newParent = newParent.getParent();
       }
       if (newParent.getRank() == 220) {
-        return newParent.getFullName();
+        return newParent.getName();
       }
     }
     return null;
@@ -303,7 +303,7 @@ public class Taxon extends BaseEntity {
   
   public String getSubgenus() {
     if (rank == 190) {
-      return fullName;
+      return name;
     }
     if (rank > 190) {
       Taxon newParent = parent;
@@ -311,7 +311,7 @@ public class Taxon extends BaseEntity {
         newParent = newParent.getParent();
       }
       if (newParent.getRank() == 190) {
-        return newParent.getFullName();
+        return newParent.getName();
       }
     }
     return null;
@@ -319,7 +319,7 @@ public class Taxon extends BaseEntity {
 
   public String getGenus() {
     if (rank == 180) {
-      return fullName;
+      return name;
     }
     if (rank > 180) {
       Taxon newParent = parent;
@@ -327,7 +327,7 @@ public class Taxon extends BaseEntity {
         newParent = newParent.getParent();
       }
       if (newParent.getRank() == 180) {
-        return newParent.getFullName();
+        return newParent.getName();
       }
     }
     return null;
@@ -335,7 +335,7 @@ public class Taxon extends BaseEntity {
 
   public String getFamily() {
     if (rank == 140) {
-      return fullName;
+      return name;
     }
     if (rank > 140) {
       Taxon newParent = parent;
@@ -343,7 +343,7 @@ public class Taxon extends BaseEntity {
         newParent = newParent.getParent();
       }
       if (newParent.getRank() == 140) {
-        return newParent.getFullName();
+        return newParent.getName();
       }
     }
     return null;
@@ -351,7 +351,7 @@ public class Taxon extends BaseEntity {
   
   public String getOrder() {
     if (rank == 100) {
-      return fullName;
+      return name;
     }
     if (rank > 100) {
       Taxon newParent = parent;
@@ -359,7 +359,7 @@ public class Taxon extends BaseEntity {
         newParent = newParent.getParent();
       }
       if (newParent.getRank() == 100) {
-        return newParent.getFullName();
+        return newParent.getName();
       }
     }
     return null;
@@ -367,7 +367,7 @@ public class Taxon extends BaseEntity {
   
   public String getClazz() {
     if (rank == 60) {
-      return fullName;
+      return name;
     }
     if (rank > 60) {
       Taxon newParent = parent;
@@ -375,7 +375,7 @@ public class Taxon extends BaseEntity {
         newParent = newParent.getParent();
       }
       if (newParent.getRank() == 60) {
-        return newParent.getFullName();
+        return newParent.getName();
       }
     }
     return null;
@@ -383,7 +383,7 @@ public class Taxon extends BaseEntity {
   
   public String getPhylum() {
     if (rank == 30) {
-      return fullName;
+      return name;
     }
     if (rank > 30) {
       Taxon newParent = parent;
@@ -391,7 +391,7 @@ public class Taxon extends BaseEntity {
         newParent = newParent.getParent();
       }
       if (newParent.getRank() == 30) {
-        return newParent.getFullName();
+        return newParent.getName();
       }
     }
     return null;
@@ -399,7 +399,7 @@ public class Taxon extends BaseEntity {
   
    public String getKingdom() {
     if (rank == 10) {
-      return fullName;
+      return name;
     }
     if (rank > 10) {
       Taxon newParent = parent;
@@ -407,7 +407,7 @@ public class Taxon extends BaseEntity {
         newParent = newParent.getParent();
       }
       if (newParent.getRank() == 10) {
-        return newParent.getFullName();
+        return newParent.getName();
       }
     }
     return null;
