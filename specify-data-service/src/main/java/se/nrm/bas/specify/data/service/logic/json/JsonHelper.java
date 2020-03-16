@@ -1,13 +1,11 @@
 package se.nrm.bas.specify.data.service.logic.json;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import javax.json.JsonObject;
+import java.util.Date; 
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 import javax.json.JsonValue.ValueType; 
-import se.nrm.bas.specify.data.service.logic.util.Util;
-import se.nrm.dina.datamodel.EntityBean;
+import se.nrm.bas.specify.data.service.logic.util.Util; 
 
 /**
  *
@@ -33,102 +31,13 @@ public class JsonHelper {
     return type == JsonValue.ValueType.STRING;
   }
   
-//  public String getStringValue(JsonObject json, String key) {
-//    String field = json.getString(key);
-//    
-//     Object value;
-//                  if(field.contains(comma)) {
-//                    value = mappingValueForMultipleFields(bean, field);   
-////                    addAttributes(builder, StringUtils.removeEnd(sb.toString().trim(), comma), key);
-//                  } else {
-//                    value = getMappingValue(bean, field); 
-//                  }  
-//                  if (value != null) {
-//                      JsonHelper.getInstance().addAttributes(builder, value, key);
-//                  }
-//  }
-  
- 
-  
-  
-  
-//  public void addJosnObjectForBean(JsonObject json, EntityBean bean) {
-//    
-////    if (bean != null) {
-////      json.keySet().stream()
-////              .forEach(key -> {  
-////                if (json.get(key).getValueType() == JsonValue.ValueType.STRING) {
-////                  String field = json.getString(key);
-////                  
-////                  Object value;
-////                  if(field.contains(comma)) {
-////                    value = mappingValueForMultipleFields(bean, field);   
-//////                    addAttributes(builder, StringUtils.removeEnd(sb.toString().trim(), comma), key);
-////                  } else {
-////                    value = getMappingValue(bean, field); 
-////                  }  
-////                  if (value != null) {
-////                      JsonHelper.getInstance().addAttributes(builder, value, key);
-////                  }
-////                } else {
-////                  if (ReflectionHelper.getInstance().isList(bean.getClass(), key)) {
-////                    mappingCollectionFieldValue(json.getJsonObject(key), getCollectionValue(bean, key));
-////                  } else if (ReflectionHelper.getInstance().isSet(bean.getClass(), key)) {
-////                    mappingCollectionFieldValue(json.getJsonObject(key), getSetValue(bean, key));
-////                  } else { 
-////                    EntityBean value = (EntityBean) getObjectValue(bean, key);
-////                    if (value != null) {
-////                      mappingFieldValue(json.getJsonObject(key), value);
-////                    }
-////                  }
-////                }
-////              });
-////    }
-//  }
-  
-//  public void getMappingValue(JsonObject json, EntityBean bean) {
-//    if (bean != null) {
-//      json.keySet().stream()
-//              .forEach(key -> {  
-//                
-//                
-////                if (json.get(key).getValueType() == JsonValue.ValueType.STRING) {
-////                  String field = json.getString(key);
-////                  
-////                  Object value;
-////                  if(field.contains(comma)) {
-////                    value = mappingValueForMultipleFields(bean, field);   
-//////                    addAttributes(builder, StringUtils.removeEnd(sb.toString().trim(), comma), key);
-////                  } else {
-////                    value = getMappingValue(bean, field); 
-////                  }  
-////                  if (value != null) {
-////                      JsonHelper.getInstance().addAttributes(builder, value, key);
-////                  }
-////                } else {
-////                  if (ReflectionHelper.getInstance().isList(bean.getClass(), key)) {
-////                    mappingCollectionFieldValue(json.getJsonObject(key), getCollectionValue(bean, key));
-////                  } else if (ReflectionHelper.getInstance().isSet(bean.getClass(), key)) {
-////                    mappingCollectionFieldValue(json.getJsonObject(key), getSetValue(bean, key));
-////                  } else { 
-////                    EntityBean value = (EntityBean) getObjectValue(bean, key);
-////                    if (value != null) {
-////                      mappingFieldValue(json.getJsonObject(key), value);
-////                    }
-////                  }
-////                }
-//              });
-//    }
-//  }
-  
-  
   public void addId(JsonObjectBuilder attBuilder, String id) {
     attBuilder.add(idKey, id);
   }
 
   
   public void addAttributes(JsonObjectBuilder attBuilder, String key, Object value) {
-     
+    
     if (value instanceof Integer) {
       attBuilder.add(key, (int) value);
     } else if (value instanceof Short) {

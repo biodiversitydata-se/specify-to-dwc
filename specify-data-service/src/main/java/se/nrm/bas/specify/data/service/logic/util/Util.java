@@ -3,12 +3,14 @@ package se.nrm.bas.specify.data.service.logic.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date; 
+import java.util.Date;  
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author idali
  */
+@Slf4j
 public class Util {
  
   private static Util instance = null;
@@ -18,8 +20,9 @@ public class Util {
   private final String nrmIndex = "nrm_index";
   private final String gnmIndex = "gnm_index";
   private final String nrm = "nrm";
+  private StringBuilder sb;
    
-  private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+  private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
 
   public static Util getInstance() {
     synchronized (Util.class) {
@@ -29,7 +32,7 @@ public class Util {
     }
     return instance;
   }
-  
+   
   public String getIndexCore(String institution) {
     return isNrm(institution) ? nrmIndex : gnmIndex;
   }

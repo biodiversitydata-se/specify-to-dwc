@@ -39,13 +39,13 @@ public class SolrIndexBuilderLogic implements Serializable {
     Date toDate = Util.getInstance().stringToDate(strToDate);
     
     boolean isNrm = Util.getInstance().isNrm(institution);  
-    List<Integer> ids = reader.getCollectionIds(collectionCode, fromDate, toDate, isNrm); 
+    List<Integer> ids = reader.getCollectionIds(collectionCode, fromDate, toDate, isNrm);  
     
     int total = ids.size();
     for (int i = 0; i < total; i += batch) {  
       end = i + batch <= total ? i + batch : total;
       List<EntityBean> list = reader.fetchData(institution, collectionCode, fromDate, toDate, ids.subList(i, end), isNrm); 
-      JsonArray json = converter.convert(list, institution, collectionCode);  
+      JsonArray json = converter.convert(list, institution, collectionCode);   
       indexBuilder.postToSolr(Util.getInstance().getIndexCore(institution), json.toString());  
     }     
   }

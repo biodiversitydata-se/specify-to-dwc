@@ -44,8 +44,8 @@ public class SpecifyDataEndpoint {
   public Response run(@QueryParam("inst") String institution,
           @QueryParam("collCode") int collectionCode,
           @QueryParam("from") String fromDate,
-          @QueryParam("to") String toDate) { 
-    
+          @QueryParam("to") String toDate) {  
+     
     if(institution == null || institution.isEmpty()) {
       return Response.status(badRequestStatusCode).entity(badRequest).build();
     } 
