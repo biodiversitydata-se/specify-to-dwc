@@ -18,3 +18,5 @@ sample.json
 certs/*.crt
 certs/*.key
 project-initdata.yml
+
+notes
