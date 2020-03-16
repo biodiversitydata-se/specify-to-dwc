@@ -1,7 +1,9 @@
 package se.nrm.bas.specify.data.service.logic.json;
   
 import java.io.Serializable; 
+import java.util.HashMap;
 import java.util.List; 
+import java.util.Map;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -28,6 +30,8 @@ public class JsonConverter implements Serializable {
 
   private JsonArrayBuilder arrayBuilder;
   private JsonObjectBuilder builder;
+  
+  private Map<String, List<String>> map; 
     
   public JsonArray convert(List<EntityBean> beans, String institution, int collectionId) {
     log.info("convert -- {} -- {}", institution, collectionId);
@@ -39,21 +43,23 @@ public class JsonConverter implements Serializable {
     beans.stream()
             .forEach(bean -> {
               JsonHelper.getInstance().addId(builder, bean.getIdentityString());
+              
+              map = new HashMap<>();
               json.keySet().stream()
                       .forEach(key -> {
                         if (JsonHelper.getInstance().isStringType(json.get(key).getValueType())) {
-                          Object value = entityToJson.getStringValueFromEntity(bean, json.getString(key));
+                          Object value = entityToJson.getStringValueFromEntity(bean, json.getString(key)); 
                           if(value != null) {
                             JsonHelper.getInstance().addAttributes(builder, key, value);
                           }
                         } else {  
                           if (ReflectionHelper.getInstance().isCollection(bean.getClass(), key)) {
-                            List<EntityBean> list = ReflectionHelper.getInstance().getChildListFromParent(bean, key);
-                            entityToJson.convertEntitiesToJson(builder, json.getJsonObject(key), list);  
+                            List<EntityBean> list = ReflectionHelper.getInstance().getChildListFromParent(bean, key); 
+                            entityToJson.convertEntitiesToJson(builder, json.getJsonObject(key), list, map);  
                           } else {
-                            EntityBean child = (EntityBean) ReflectionHelper.getInstance().getChildFromParent(bean, key);
+                            EntityBean child = (EntityBean) ReflectionHelper.getInstance().getChildFromParent(bean, key); 
                             if (child != null) {
-                              entityToJson.convertEntityToJson(builder, json.getJsonObject(key), child, false); 
+                              entityToJson.convertEntityToJson(builder, json.getJsonObject(key), child, map, false); 
                             }
                           } 
                   } 
