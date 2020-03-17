@@ -12,7 +12,6 @@ services:
     volumes:
       - ./project-initdata.yml:/usr/src/myapp/project-initdata.yml
     extra_hosts:
-      # - "dina-db.nrm.se:172.16.0.86"
       - db:db
 
   solr:
@@ -21,7 +20,6 @@ services:
       SOLR_HEAP: 4g
     volumes:
       - ./lib/jts-core-1.15.0.jar:/opt/solr-8.1.1/server/solr-webapp/webapp/WEB-INF/lib/jts-core-1.15.0.jar
-      # - ./data_solr:/var/solr
       - ./solr8/mycores:/var/solr/data
     entrypoint:
       - docker-entrypoint.sh
