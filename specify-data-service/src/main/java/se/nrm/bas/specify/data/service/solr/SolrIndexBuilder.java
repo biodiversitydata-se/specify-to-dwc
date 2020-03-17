@@ -32,6 +32,7 @@ public class SolrIndexBuilder {
   private HttpClient client;
   private HttpPost post;
   private StringEntity entity;
+  private int statusCode;
 
   @Inject
   private InitialProperties properties;
@@ -42,8 +43,8 @@ public class SolrIndexBuilder {
     client = HttpClientBuilder.create().build();
   }
 
-  public void postToSolr(String core, String jsonString) {
-    log.info("postSolr: core = {}", core);
+  public int postToSolr(String core, String jsonString) { 
+    log.info("postToSolr");
 
     solrUrl = solrBaseUrl + core + solrUpdate; 
     post = new HttpPost(solrUrl);
@@ -60,8 +61,10 @@ public class SolrIndexBuilder {
         String responseText = IOUtils.toString(input, encoding);
         log.info("response text: {} ---  {}", responseText, response.getStatusLine().getStatusCode());
        }  
+       statusCode = response.getStatusLine().getStatusCode();
     } catch (IOException ex) {
       log.info(ex.getMessage());
     }
+    return statusCode;
   } 
 }

@@ -29,12 +29,16 @@ public class SolrIndexBuilderLogic implements Serializable {
   private final int batch = 2000; 
   private int end;
   
+  private int statusCode; 
+  private int solrPostStatusCode;
+  
   public SolrIndexBuilderLogic() {
     
   }
    
-  public void run(String institution, int collectionCode, String strFromDate, String strToDate) {
+  public int run(String institution, int collectionCode, String strFromDate, String strToDate) {
     
+    solrPostStatusCode = 200;
     Date fromDate = Util.getInstance().stringToDate(strFromDate);
     Date toDate = Util.getInstance().stringToDate(strToDate);
     
@@ -46,7 +50,11 @@ public class SolrIndexBuilderLogic implements Serializable {
       end = i + batch <= total ? i + batch : total;
       List<EntityBean> list = reader.fetchData(institution, collectionCode, fromDate, toDate, ids.subList(i, end), isNrm); 
       JsonArray json = converter.convert(list, institution, collectionCode);   
-      indexBuilder.postToSolr(Util.getInstance().getIndexCore(institution), json.toString());  
-    }     
+      statusCode = indexBuilder.postToSolr(Util.getInstance().getIndexCore(institution), json.toString());
+      if(statusCode != 200) {
+        solrPostStatusCode = statusCode;
+      }
+    } 
+    return solrPostStatusCode;
   }
 }
