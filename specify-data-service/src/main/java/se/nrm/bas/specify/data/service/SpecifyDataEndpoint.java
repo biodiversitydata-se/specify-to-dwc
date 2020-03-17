@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 import se.nrm.bas.specify.data.service.logic.SolrIndexBuilderLogic; 
+import se.nrm.bas.specify.data.service.logic.util.Util;
 
 /**
  *
@@ -26,10 +27,9 @@ import se.nrm.bas.specify.data.service.logic.SolrIndexBuilderLogic;
 @Produces(MediaType.APPLICATION_JSON)
 @Slf4j
 public class SpecifyDataEndpoint {
-  
-  private final String badRequest = "Bad Request";
-  private final int badRequestStatusCode = 400;
-  private final String success = "Solr index run success";
+   
+  private final int badRequestStatusCode = 400; 
+  private int statusCode;
    
   @Inject  
   private SolrIndexBuilderLogic logic;
@@ -47,12 +47,15 @@ public class SpecifyDataEndpoint {
           @QueryParam("to") String toDate) {  
      
     if(institution == null || institution.isEmpty()) {
-      return Response.status(badRequestStatusCode).entity(badRequest).build();
+      return Response.status(badRequestStatusCode)
+              .entity(Util.getInstance().getSolrPostResponse(badRequestStatusCode)).build();
     } 
     if(collectionCode == 0) {
-      return Response.status(badRequestStatusCode).entity(badRequest).build();
+      return Response.status(badRequestStatusCode)
+              .entity(Util.getInstance().getSolrPostResponse(badRequestStatusCode)).build();
     } 
-    logic.run(institution, collectionCode, fromDate, toDate);
-    return Response.ok(success).build();
+    statusCode = logic.run(institution, collectionCode, fromDate, toDate);
+    return Response.status(statusCode)
+              .entity(Util.getInstance().getSolrPostResponse(statusCode)).build(); 
   }
 }
