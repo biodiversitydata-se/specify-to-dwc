@@ -1,7 +1,6 @@
 package se.nrm.dina.data.jpa.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.io.Serializable; 
 import java.util.Date;
 import java.util.List; 
 import java.util.stream.Stream; 
@@ -13,8 +12,7 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query; 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.exception.ExceptionUtils;
+import lombok.extern.slf4j.Slf4j; 
 import se.nrm.dina.data.jpa.DinaDao;  
 import se.nrm.dina.datamodel.EntityBean; 
 
@@ -47,6 +45,11 @@ public class DinaDaoImpl<T extends EntityBean> implements DinaDao<T>, Serializab
 
   public DinaDaoImpl() {
 
+  }
+  
+  public DinaDaoImpl(EntityManager nrmEntityManager, EntityManager gnmEntityManager) {
+    this.nrmEntityManager = nrmEntityManager;
+    this.gnmEntityManager = gnmEntityManager;
   }
 
   private EntityManager getEntityManager(boolean isNrm) {
@@ -115,21 +118,7 @@ public class DinaDaoImpl<T extends EntityBean> implements DinaDao<T>, Serializab
     }
     return number.intValue();
   }
-  
-  public Throwable getRootCause(final Throwable throwable) {
-    final List<Throwable> list = getThrowableList(throwable);
-    return list.size() < 2 ? null : (Throwable) list.get(list.size() - 1);
-  }
-
-  public List<Throwable> getThrowableList(Throwable throwable) {
-    final List<Throwable> list = new ArrayList<>();
-    while (throwable != null && list.contains(throwable) == false) {
-      list.add(throwable);
-      throwable = ExceptionUtils.getCause(throwable);
-    }
-    return list;
-  } 
-    
+   
   public void closeEntityManager() {
     log.info("disposesing entityManage....");
     if (gnmEntityManager.isOpen()) {
