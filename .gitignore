@@ -20,3 +20,4 @@ certs/*.key
 project-initdata_local.yml
 
 notes
+/dina-data-jpa-slim/nbproject/
