@@ -82,7 +82,7 @@ public class DinaDaoImpl<T extends EntityBean> implements DinaDao<T>, Serializab
   public List<Integer> findAllIds(int collectionMemberID, Date fromDate, Date toDate, boolean isNrm) {
     
     query = getEntityManager(isNrm)
-              .createQuery(QueryBuilder.getInstance().buildGetIdsQuery(toDate, toDate))
+              .createQuery(QueryBuilder.getInstance().buildGetIdsQuery(fromDate, toDate))
               .setParameter(collectionMemberId, collectionMemberID);
     
     if (fromDate != null) {

@@ -323,6 +323,24 @@ public class DinaDaoImplTest {
   }
   
   @Test
+  public void testFindAllIdsNrmWithNoFromDataAndToDate() {
+    System.out.println("findAllIds"); 
+    boolean isNrm = true;
+     
+    when(query.getResultList()).thenReturn(ids);
+    dao = new DinaDaoImpl(nrmEntityManager, gnmEntityManager); 
+    List<Integer> result = dao.findAllIds(collectionId, null, null, isNrm);
+    
+    verify(gnmEntityManager, never()).createQuery(any(String.class)); 
+    verify(nrmEntityManager, times(1)).createQuery(any(String.class)); 
+    verify(query, times(1)).setParameter("collectionMemberID", collectionId); 
+    verify(query, never()).setParameter("fromDate", fromDate); 
+    verify(query, never()).setParameter("toDate", toDate);  
+    verify(query, times(1)).getResultList(); 
+    assertEquals(3, result.size()); 
+  }
+  
+  @Test
   public void testFindAllIdsGnm() {
     System.out.println("findAllIds"); 
     boolean isNrm = false;
@@ -371,6 +389,24 @@ public class DinaDaoImplTest {
     verify(gnmEntityManager, times(1)).createQuery(any(String.class)); 
     verify(query, times(1)).setParameter("collectionMemberID", collectionId); 
     verify(query, times(1)).setParameter("fromDate", fromDate); 
+    verify(query, never()).setParameter("toDate", toDate);  
+    verify(query, times(1)).getResultList(); 
+    assertEquals(3, result.size()); 
+  }
+  
+  @Test
+  public void testFindAllIdsGnmWithNoFromDataAndToDate() {
+    System.out.println("findAllIds"); 
+    boolean isNrm = true;
+     
+    when(query.getResultList()).thenReturn(ids);
+    dao = new DinaDaoImpl(nrmEntityManager, gnmEntityManager); 
+    List<Integer> result = dao.findAllIds(collectionId, null, null, isNrm);
+    
+    verify(gnmEntityManager, never()).createQuery(any(String.class)); 
+    verify(nrmEntityManager, times(1)).createQuery(any(String.class)); 
+    verify(query, times(1)).setParameter("collectionMemberID", collectionId); 
+    verify(query, never()).setParameter("fromDate", fromDate); 
     verify(query, never()).setParameter("toDate", toDate);  
     verify(query, times(1)).getResultList(); 
     assertEquals(3, result.size()); 
