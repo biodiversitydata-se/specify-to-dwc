@@ -54,9 +54,26 @@ public class ReflectionHelperTest {
     List<String> fields = new ArrayList();
     fields.add("string");
     fields.add("s");
-    
+     
     String expResult = "test 2";
     String result = instance.getStringValueFromMultipleFields(bean, fields);
+    assertEquals(expResult, result); 
+  }
+  
+  @Test
+  public void testGetStringValueFromMultipleFieldsWithNull() {
+    System.out.println("getStringValueFromMultipleFields");
+     
+    Testentity bean = new Testentity(); 
+    bean.setS((short)2);
+    
+    List<String> fields = new ArrayList();
+    fields.add("string");
+    fields.add("s"); 
+    
+    String expResult = "2";
+    String result = instance.getStringValueFromMultipleFields(bean, fields);
+    System.out.println("result..." + result);
     assertEquals(expResult, result); 
   }
 
@@ -99,6 +116,17 @@ public class ReflectionHelperTest {
     Object result = instance.getValueFromFieldOrMethod(bean, fieldName);
     assertEquals(expResult, result); 
   }
+  
+  @Test
+  public void testGetFieldValueWithMethod2() {
+    System.out.println("getFieldValue");
+    Testentity bean = new Testentity(); 
+    bean.setS((short)2);
+    String fieldName = "S"; 
+    short expResult = 2;
+    Object result = instance.getValueFromFieldOrMethod(bean, fieldName);
+    assertEquals(expResult, result); 
+  }
    
   @Test
   public void testGetFieldValueNull() {
@@ -118,7 +146,7 @@ public class ReflectionHelperTest {
     System.out.println("getMethodValue");
     Testentity bean = new Testentity(); 
     bean.setS((short)2);
-    String fieldName = "s"; 
+    String fieldName = "S"; 
     short expResult = 2;
     Object result = instance.getValueFromFieldOrMethod(bean, fieldName);
     assertEquals(expResult, result); 
