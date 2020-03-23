@@ -78,6 +78,18 @@ public class MappingFileReaderTest {
   }
   
   @Test
+  public void testReadException() {
+    System.out.println("read"); 
+    String mappingKey = "test";  
+    
+    when(properties.getDefaultMappingFilePath()).thenReturn("wrong/path");  
+    instance = new MappingFileReader(properties);
+    JsonObject result = instance.read(mappingKey);  
+    assertTrue(result == null); 
+    verify(properties, times(1)).getDefaultMappingFilePath(); 
+  }
+  
+  @Test
   public void testReadWithCollectionCode() {
     System.out.println("read");
       

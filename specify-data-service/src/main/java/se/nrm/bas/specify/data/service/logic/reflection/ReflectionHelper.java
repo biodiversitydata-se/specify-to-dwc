@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set; 
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j; 
+import org.apache.commons.lang.StringUtils;
 import se.nrm.dina.data.exceptions.DinaException;
 import se.nrm.dina.data.exceptions.ErrorMsg;
 import se.nrm.dina.datamodel.EntityBean;
@@ -41,9 +42,9 @@ public class ReflectionHelper {
     sb = new StringBuilder();
     fields.stream()
             .forEach(f -> {
-              String value = String.valueOf(getFieldValue(bean, f)) ; 
-              if(value != null) {
-                sb.append(value); 
+              Object obj = getFieldValue(bean, f); 
+              if(obj != null) {
+                sb.append(String.valueOf(obj)); 
                 sb.append(emptySpace);
               }
             });  

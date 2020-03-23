@@ -19,6 +19,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import se.nrm.dina.datamodel.EntityBean;
+import se.nrm.dina.datamodel.impl.Agent;
 import se.nrm.dina.datamodel.impl.Testentity;
 
 /**
@@ -45,11 +46,14 @@ public class EntityToJsonTest {
     } catch (FileNotFoundException ex) {
       System.out.println("error" + ex.getMessage());
     }
+    
+    Agent createdByAgentID = new Agent(5);
     testBean = new Testentity(10);
     testBean.setString("test string");
     testBean.setS((short) 18);
     testBean.setBgDecimal(BigDecimal.valueOf(18.7)); 
     testBean.setIsTrue(true); 
+    testBean.setCreatedByAgentID(createdByAgentID);
     
     json = Json.createReader(fis).readObject();  
   }
