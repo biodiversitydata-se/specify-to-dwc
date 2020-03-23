@@ -1,16 +1,13 @@
 package se.nrm.bas.specify.data.service.solr;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.IOException; 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
+import lombok.extern.slf4j.Slf4j;  
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.StringEntity; 
 import org.apache.http.impl.client.HttpClientBuilder;
 import se.nrm.bas.specify.data.service.logic.InitialProperties;
 
@@ -26,45 +23,49 @@ public class SolrIndexBuilder {
   private final String solrUpdate = "/update/json?wt=json&commit=true";
   private final String utf8 = "UTF-8";
   private final String applicationJson = "application/json";
-  private HttpResponse response;
-  private HttpEntity httpEntity; 
+  private HttpResponse response; 
   
   private HttpClient client;
   private HttpPost post;
-  private StringEntity entity;
-  private int statusCode;
+  private StringEntity entity; 
+  
+  private int status;
 
   @Inject
   private InitialProperties properties;
+  
+  public SolrIndexBuilder() {
+    
+  }
+  
+  public SolrIndexBuilder(InitialProperties properties) {
+    this.properties = properties;
+  }
+  
 
   @PostConstruct
   public void init() {
-    solrBaseUrl = properties.getSolrPath();
-    client = HttpClientBuilder.create().build();
+    solrBaseUrl = properties.getSolrPath(); 
   }
 
   public int postToSolr(String core, String jsonString) { 
     log.info("postToSolr");
-
-    solrUrl = solrBaseUrl + core + solrUpdate; 
-    post = new HttpPost(solrUrl);
     
+    client = HttpClientBuilder.create().build();
+ 
+    solrUrl = solrBaseUrl + core + solrUpdate;
+    post = new HttpPost(solrUrl);
+ 
     entity = new StringEntity(jsonString, utf8);
     entity.setContentType(applicationJson);
+    post.setEntity(entity); 
     try {
-      post.setEntity(entity); 
-      response = client.execute(post); 
-      httpEntity = response.getEntity(); 
-      String encoding = httpEntity.getContentEncoding() == null ? utf8 : httpEntity.getContentEncoding().getName();
-      try(InputStream input = httpEntity.getContent()) {
-        encoding = encoding == null ? utf8 : encoding;
-        String responseText = IOUtils.toString(input, encoding);
-        log.info("response text: {} ---  {}", responseText, response.getStatusLine().getStatusCode());
-       }  
-       statusCode = response.getStatusLine().getStatusCode();
+      response = client.execute(post);  
+      status = response.getStatusLine().getStatusCode(); 
+      return status;
     } catch (IOException ex) {
-      log.info(ex.getMessage());
-    }
-    return statusCode;
+      log.error(ex.getMessage());
+      return 500;
+    } 
   } 
 }

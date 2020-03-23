@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>specify-to-dwc</artifactId>
@@ -63,19 +66,39 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>${version.mysql}</version>
     </dependency>
+     
+    <dependency>
+      <groupId>javax.json</groupId>
+      <artifactId>javax.json-api</artifactId>
+      <version>1.1.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.json</artifactId>
+      <version>1.1.4</version>
+    </dependency>
 
     <dependency>
       <artifactId>solr-solrj</artifactId>
       <groupId>org.apache.solr</groupId>
       <version>8.1.0</version>
     </dependency>
+     
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>1.7.0</version>
+      <scope>test</scope>
+    </dependency>
     
-<!--    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.5.10</version>
-    </dependency>-->
-    
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>1.7.4</version>
+      <scope>test</scope>
+    </dependency>
+ 
     <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-web-api</artifactId>

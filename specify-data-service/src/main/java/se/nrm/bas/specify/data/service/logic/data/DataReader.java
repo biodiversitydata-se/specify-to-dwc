@@ -22,17 +22,15 @@ public class DataReader implements Serializable {
   public DataReader() { 
   }
   
-  public void getCollectionObjectByCollectionCode() {
-
+  public DataReader(DinaDao dao) {
+    this.dao = dao;
   }
-
+    
   public List<Integer> getCollectionIds(int collectionId, Date fromDate, Date toDate, boolean isNrm) {
     return dao.findAllIds(collectionId, fromDate, toDate, isNrm);
   }
 
-  public List<EntityBean> fetchData(String institution, int collectionId,
-          Date fromDate, Date toDate, List<Integer> ids, boolean isNrm) {
-
+  public List<EntityBean> fetchData(int collectionId, Date fromDate, Date toDate, List<Integer> ids, boolean isNrm) { 
     return ((Stream<EntityBean>) dao
             .findByCollectonId(collectionId, isNrm, fromDate, toDate, ids))
             .collect(Collectors.toList());

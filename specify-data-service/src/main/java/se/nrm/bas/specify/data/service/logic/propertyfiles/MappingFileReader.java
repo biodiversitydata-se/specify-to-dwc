@@ -22,14 +22,22 @@ public class MappingFileReader {
   private InitialProperties properties;
   
   private final String strDefault = "default";
+  
+  public MappingFileReader() {
+    
+  }
+  
+  public MappingFileReader(InitialProperties properties) {
+    this.properties = properties;
+  }
 
   public JsonObject read(String mappingKey) {
     log.info("read: {}", mappingKey);
-  
+   
     InputStream fis = null;
     try {
-      fis = new FileInputStream(properties.getDefaultMappingFilePath());
-      JsonArray array = Json.createReader(fis).readArray(); 
+      fis = new FileInputStream(properties.getDefaultMappingFilePath()); 
+      JsonArray array = Json.createReader(fis).readArray();  
       JsonObject json = array.stream()
               .filter(a -> a.asJsonObject().containsKey(mappingKey))
               .findAny().orElse(array.getJsonObject(0)).asJsonObject();
