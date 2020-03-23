@@ -1,5 +1,6 @@
 package se.nrm.bas.specify.data.service.logic.util;
  
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -89,6 +90,10 @@ public class Util {
     } else if (value instanceof java.util.Date) {
       return dateToString((Date)value); 
     } else if (value instanceof Boolean) {
+      return String.valueOf(value); 
+    } else if (value instanceof BigDecimal) {
+      return String.valueOf(value); 
+    } else if (value instanceof Short) {
       return String.valueOf(value); 
     } else {
       return (String)value;

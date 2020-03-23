@@ -16,8 +16,7 @@ public class JsonHelper {
   private static JsonHelper instance = null;
   
   private final String idKey = "id";
-
-    
+ 
   public static JsonHelper getInstance() {
     synchronized (JsonHelper.class) {
       if (instance == null) {

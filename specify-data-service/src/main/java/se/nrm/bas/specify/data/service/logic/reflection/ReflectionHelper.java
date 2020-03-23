@@ -41,7 +41,7 @@ public class ReflectionHelper {
     sb = new StringBuilder();
     fields.stream()
             .forEach(f -> {
-              String value = (String) getFieldValue(bean, f); 
+              String value = String.valueOf(getFieldValue(bean, f)) ; 
               if(value != null) {
                 sb.append(value); 
                 sb.append(emptySpace);
@@ -61,7 +61,7 @@ public class ReflectionHelper {
       field.setAccessible(true);
       return field.get(bean);
     } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
-      log.error(ex.getMessage());
+//      log.error(ex.getMessage());
       return getMethodValue(bean, fieldName);
     }
   }
@@ -72,7 +72,7 @@ public class ReflectionHelper {
       Method m = bean.getClass().getMethod(getString + fieldName);
       return m.invoke(bean);
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-      log.error(ex.getMessage());
+//      log.error(ex.getMessage()); 
     }
     return null;
   }
@@ -90,7 +90,7 @@ public class ReflectionHelper {
   public boolean isCollection(Class clazz, String fieldName) {
     try { 
       return clazz.getDeclaredField(fieldName).getType().getName().equals(DATATYPE_SET) ||
-              clazz.getDeclaredField(fieldName).getType().getName().equals(DATATYPE_SET); 
+              clazz.getDeclaredField(fieldName).getType().getName().equals(DATATYPE_LIST); 
     } catch (NoSuchFieldException e) {
       Class superClass = clazz.getSuperclass();
       if (superClass == null) {
@@ -100,7 +100,6 @@ public class ReflectionHelper {
       }
     }
   } 
-  
      
   /**
    * Checks if the field is a collection
@@ -120,85 +119,5 @@ public class ReflectionHelper {
         return isList(superClass, fieldName);
       }
     }
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-//  
-//  public boolean isSet(Class clazz, String fieldName) {  
-//    try { 
-//      return clazz.getDeclaredField(fieldName).getType().getName().equals(DATATYPE_SET);
-//    } catch (NoSuchFieldException e) {
-//      Class superClass = clazz.getSuperclass();
-//      if (superClass == null) {
-//        throw new DinaException(ErrorMsg.getInstance().getFieldNotExist(clazz.getSimpleName(), fieldName), 400);
-//      } else {
-//        return isSet(superClass, fieldName);
-//      }
-//    }
-//  }
-  
-
-}
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-//  
-//  
-//
-//  /**
-//   * Checks if the field is int of Integer
-//   *
-//   * @param clazz
-//   * @param fieldName
-//   * @return boolean
-//   */
-//  public boolean isIntField(Class clazz, String fieldName) { 
-//    try {
-//      return clazz.getDeclaredField(fieldName).getType().getName().equals(DATATYPE_INT)
-//              || clazz.getDeclaredField(fieldName).getType().getName().equals(DATATYPE_INTEGER);
-//    } catch (NoSuchFieldException e) {
-//      Class superClass = clazz.getSuperclass();
-//      if (superClass == null) {
-//        throw new DinaException(ErrorMsg.getInstance().getFieldNotExist(clazz.getSimpleName(), fieldName), 400);
-//      } else {
-//        return isIntField(superClass, fieldName);
-//      }
-//    }
-//  }
-//  
-//  public boolean isShortField(Class clazz, String fieldName) {
-//    log.info("isShortField : {} -- {}", clazz, fieldName);
-//
-//    try {  
-//      return clazz.getDeclaredField(fieldName).getType().getName().equals(DATATYPE_SHORT);
-//    } catch (NoSuchFieldException e) {
-//      Class superClass = clazz.getSuperclass();
-//      if (superClass == null) {
-//        throw new DinaException(ErrorMsg.getInstance().getFieldNotExist(clazz.getSimpleName(), fieldName), 400);
-//      } else {
-//        return isShortField(superClass, fieldName);
-//      }
-//    }
-//  }
-//  
-   
+  } 
+} 
