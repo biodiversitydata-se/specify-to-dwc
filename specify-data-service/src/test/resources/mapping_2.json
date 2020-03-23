@@ -1,0 +1,14 @@
+[{
+    "default": {
+      "text1": "text1",
+      "catalogNumber": "catalogNumber"
+    }
+  },
+  {
+    "nrm_163840": {
+      "text2": "text2",
+      "catalogNumber": "catalogNumber",
+      "institution": "institution"
+    }
+  }
+]
