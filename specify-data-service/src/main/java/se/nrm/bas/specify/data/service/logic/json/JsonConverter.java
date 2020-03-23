@@ -32,6 +32,15 @@ public class JsonConverter implements Serializable {
   private JsonObjectBuilder builder;
   
   private Map<String, List<String>> map; 
+  
+  public JsonConverter() {
+    
+  }
+  
+  public JsonConverter(MappingFileReader mappingFile, EntityToJson entityJson) {
+    this.mappingFile = mappingFile;
+    this.entityToJson = entityJson;
+  }
     
   public JsonArray convert(List<EntityBean> beans, String institution, int collectionId) {
     log.info("convert -- {} -- {}", institution, collectionId);

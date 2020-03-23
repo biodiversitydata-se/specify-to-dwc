@@ -26,32 +26,42 @@ public class SolrIndexBuilderLogic implements Serializable {
   @Inject
   private SolrIndexBuilder indexBuilder;
   
-  private final int batch = 2000; 
+  private final int batch = 1000; 
+  private final int successCode = 200;
   private int end;
   
   private int statusCode; 
   private int solrPostStatusCode;
-  
+   
   public SolrIndexBuilderLogic() {
     
+  }
+  
+  public SolrIndexBuilderLogic(DataReader reader, JsonConverter converter, SolrIndexBuilder indexBuilder) {
+    this.reader = reader;
+    this.converter = converter;
+    this.indexBuilder = indexBuilder;
   }
    
   public int run(String institution, int collectionCode, String strFromDate, String strToDate) {
     
-    solrPostStatusCode = 200;
+    solrPostStatusCode = successCode;
     Date fromDate = Util.getInstance().stringToDate(strFromDate);
     Date toDate = Util.getInstance().stringToDate(strToDate);
     
     boolean isNrm = Util.getInstance().isNrm(institution);  
+     
     List<Integer> ids = reader.getCollectionIds(collectionCode, fromDate, toDate, isNrm);  
-    
-    int total = ids.size();
+    log.info("ids size... {}", ids.size());
+    int total = ids.size();  
     for (int i = 0; i < total; i += batch) {  
       end = i + batch <= total ? i + batch : total;
-      List<EntityBean> list = reader.fetchData(institution, collectionCode, fromDate, toDate, ids.subList(i, end), isNrm); 
+      log.info("start: {} --- end: {}", i, end);
+      List<EntityBean> list = reader.fetchData(collectionCode, fromDate, toDate, ids.subList(i, end), isNrm); 
       JsonArray json = converter.convert(list, institution, collectionCode);   
       statusCode = indexBuilder.postToSolr(Util.getInstance().getIndexCore(institution), json.toString());
-      if(statusCode != 200) {
+   
+      if(statusCode != successCode) {
         solrPostStatusCode = statusCode;
       }
     } 
