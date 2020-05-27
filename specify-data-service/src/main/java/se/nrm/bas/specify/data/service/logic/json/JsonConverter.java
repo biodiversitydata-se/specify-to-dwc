@@ -42,9 +42,7 @@ public class JsonConverter implements Serializable {
     this.entityToJson = entityJson;
   }
     
-  public JsonArray convert(List<EntityBean> beans, String institution, int collectionId) {
-    log.info("convert -- {} -- {}", institution, collectionId);
-  
+  public JsonArray convert(List<EntityBean> beans, String institution, int collectionId) {  
     JsonObject json = mappingFile.read(Util.getInstance().getMappingKey(institution, collectionId));  
     arrayBuilder = Json.createArrayBuilder();
     builder = Json.createObjectBuilder();
