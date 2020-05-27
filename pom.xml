@@ -7,7 +7,7 @@
 
   <groupId>se.nrm.bas</groupId>
   <artifactId>specify-to-dwc</artifactId>
-  <version>0.1</version>
+  <version>0.1.1</version>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
 
@@ -145,6 +145,5 @@
       </plugins>
     </pluginManagement>
   </build>
-
-
+ 
 </project>
