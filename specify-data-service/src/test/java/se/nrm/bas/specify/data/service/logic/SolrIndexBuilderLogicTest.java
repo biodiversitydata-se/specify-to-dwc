@@ -43,7 +43,9 @@ public class SolrIndexBuilderLogicTest {
   @Mock
   private JsonConverter converter;
   @Mock
-  private SolrIndexBuilder indexBuilder;
+  private SolrIndexBuilder indexBuilder; 
+  @Mock
+  private InitialProperties properties;
    
   public SolrIndexBuilderLogicTest() {
   }
@@ -56,6 +58,9 @@ public class SolrIndexBuilderLogicTest {
     strToDate = "2018-02-01";
     fromDate = Util.getInstance().stringToDate(strFromDate);
     toDate = Util.getInstance().stringToDate(strToDate); 
+    
+    String solrPath = "http://localhost:8983";
+    when(properties.getSolrPath()).thenReturn(solrPath);  
   }
   
   @After
@@ -68,11 +73,24 @@ public class SolrIndexBuilderLogicTest {
     instance = new SolrIndexBuilderLogic();
     assertNotNull(instance);
   }
+   
+  @Test(expected = NullPointerException.class)
+  public void testDefaultConstructorException() {
+    instance = new SolrIndexBuilderLogic();
+    instance.init();
+  }
+   
+  @Test
+  public void testInit() {
+    System.out.println("init");  
+    
+    instance = new SolrIndexBuilderLogic(reader, converter, indexBuilder, properties);
+    instance.init();  
+  }
   
   @Test(expected = NullPointerException.class)
   public void testException1() {
-    instance = new SolrIndexBuilderLogic();
-    
+    instance = new SolrIndexBuilderLogic(); 
     instance.run(institution, collectionCode, strFromDate, strToDate); 
   }
 
@@ -100,7 +118,9 @@ public class SolrIndexBuilderLogicTest {
     when(converter.convert(any(List.class), any(String.class), any(Integer.class))).thenReturn(JsonValue.EMPTY_JSON_ARRAY); 
     when(indexBuilder.postToSolr(any(String.class), any(String.class))).thenReturn(200); 
      
-    instance = new SolrIndexBuilderLogic(reader, converter, indexBuilder);
+    instance = new SolrIndexBuilderLogic(reader, converter, indexBuilder, properties);
+    instance.init();
+    
     int result = instance.run(institution, collectionCode, strFromDate, strToDate);
     assertEquals(200, result); 
      
@@ -131,7 +151,7 @@ public class SolrIndexBuilderLogicTest {
     when(converter.convert(any(List.class), any(String.class), any(Integer.class))).thenReturn(JsonValue.EMPTY_JSON_ARRAY); 
     when(indexBuilder.postToSolr(any(String.class), any(String.class))).thenReturn(400); 
      
-    instance = new SolrIndexBuilderLogic(reader, converter, indexBuilder);
+    instance = new SolrIndexBuilderLogic(reader, converter, indexBuilder, properties);
     int result = instance.run(institution, collectionCode, strFromDate, strToDate);
     assertEquals(400, result); 
     
@@ -159,7 +179,7 @@ public class SolrIndexBuilderLogicTest {
     when(converter.convert(any(List.class), any(String.class), any(Integer.class))).thenReturn(JsonValue.EMPTY_JSON_ARRAY); 
     when(indexBuilder.postToSolr(any(String.class), any(String.class))).thenReturn(200); 
    
-    instance = new SolrIndexBuilderLogic(reader, converter, indexBuilder);
+    instance = new SolrIndexBuilderLogic(reader, converter, indexBuilder, properties);
     int result = instance.run(institution, collectionCode, strFromDate, strToDate); 
     assertEquals(200, result); 
     
