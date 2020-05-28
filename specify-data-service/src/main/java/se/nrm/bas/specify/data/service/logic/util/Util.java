@@ -84,19 +84,19 @@ public class Util {
   public String convertDataValueToString(Object value) {
      
     if (value instanceof Integer) {
-      return String.valueOf(value); 
+      return (String.valueOf(value)).trim(); 
     } else if (value instanceof Date) {
-      return dateToString((Date)value);
+      return dateToString((Date)value).trim();
     } else if (value instanceof java.util.Date) {
-      return dateToString((Date)value); 
+      return dateToString((Date)value).trim(); 
     } else if (value instanceof Boolean) {
-      return String.valueOf(value); 
+      return (String.valueOf(value)).trim(); 
     } else if (value instanceof BigDecimal) {
-      return String.valueOf(value); 
+      return (String.valueOf(value)).trim(); 
     } else if (value instanceof Short) {
-      return String.valueOf(value); 
+      return (String.valueOf(value)).trim(); 
     } else {
-      return (String)value;
+      return ((String)value).trim();
     }
   }
 

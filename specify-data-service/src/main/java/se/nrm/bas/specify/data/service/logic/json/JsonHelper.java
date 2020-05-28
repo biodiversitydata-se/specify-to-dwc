@@ -56,7 +56,7 @@ public class JsonHelper {
     } else if (value instanceof Long) {
       attBuilder.add(key, (Long) value);
     } else {
-      attBuilder.add(key, (String) value); 
+      attBuilder.add(key, ((String) value).trim()); 
     }
   } 
 }
