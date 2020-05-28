@@ -179,7 +179,7 @@ public class Collectionobject extends BaseEntity {
 
   @Override
   public String getIdentityString() {
-    return guid == null ? String.valueOf(collectionObjectID) : guid;
+    return guid == null || guid.length() == 0 ? String.valueOf(collectionObjectID) : guid; 
 //    return String.valueOf(collectionObjectID);
   }
 
