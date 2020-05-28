@@ -20,9 +20,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import static org.mockito.Matchers.any;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import static org.mockito.Mockito.times;  
-import static org.mockito.Mockito.verify;
+import org.mockito.runners.MockitoJUnitRunner; 
 import static org.mockito.Mockito.when;
 import se.nrm.bas.specify.data.service.logic.propertyfiles.MappingFileReader;
 import se.nrm.dina.datamodel.EntityBean;
@@ -34,8 +32,7 @@ import se.nrm.dina.datamodel.impl.Testentity;
  */
 @RunWith(MockitoJUnitRunner.class)   
 public class JsonConverterTest {
-  
-  @Mock
+   
   private MappingFileReader mappingFileReader;
   
   @InjectMocks
@@ -96,16 +93,7 @@ public class JsonConverterTest {
     instance = new JsonConverter();
     assertNotNull(instance); 
   }
-  
-  @Test(expected = NullPointerException.class)
-  public void testDefaultConstructorException() {
-    
-    beans = new ArrayList();
-    instance = new JsonConverter();
-    assertNotNull(instance); 
-    instance.convert(beans, "nrm", 0);
-  }
-  
+   
   /**
    * Test of convert method, of class JsonConverter.
    */
@@ -118,13 +106,11 @@ public class JsonConverterTest {
     beans.add(testBean);
     
     String institution = "nrm";
-    int collectionId = 166; 
-    when(mappingFileReader.read(any(String.class))).thenReturn(json);
-    instance = new JsonConverter(mappingFileReader, entityToJson);
+    int collectionId = 166;  
+    instance = new JsonConverter(entityToJson);
  
-    JsonArray result = instance.convert(beans, institution, collectionId); 
-    assertEquals(2, result.size());  
-    verify(mappingFileReader, times(1)).read(any(String.class)); 
+    JsonArray result = instance.convert(beans, institution, collectionId, json); 
+    assertEquals(2, result.size());   
   }
   
 }

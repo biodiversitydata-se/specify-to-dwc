@@ -6,9 +6,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.json.JsonArray; 
+import javax.json.JsonObject;
 import lombok.extern.slf4j.Slf4j; 
 import se.nrm.bas.specify.data.service.logic.data.DataReader; 
 import se.nrm.bas.specify.data.service.logic.json.JsonConverter; 
+import se.nrm.bas.specify.data.service.logic.propertyfiles.MappingFileReader;
 import se.nrm.bas.specify.data.service.logic.util.Util;
 import se.nrm.bas.specify.data.service.solr.SolrIndexBuilder; 
 
@@ -18,6 +20,9 @@ import se.nrm.bas.specify.data.service.solr.SolrIndexBuilder;
  */
 @Slf4j
 public class SolrIndexBuilderLogic implements Serializable {
+  
+  @Inject
+  private MappingFileReader mappingFile;
   
   @Inject
   private DataReader reader;
@@ -45,11 +50,13 @@ public class SolrIndexBuilderLogic implements Serializable {
   }
   
   public SolrIndexBuilderLogic(DataReader reader, JsonConverter converter, 
-          SolrIndexBuilder indexBuilder, InitialProperties properties) {
+          SolrIndexBuilder indexBuilder, InitialProperties properties,
+           MappingFileReader mappingFile) {
     this.reader = reader;
     this.converter = converter;
     this.indexBuilder = indexBuilder;
     this.properties = properties;
+    this.mappingFile = mappingFile;
   }
   
   @PostConstruct
@@ -58,6 +65,9 @@ public class SolrIndexBuilderLogic implements Serializable {
   }
    
   public int run(String institution, int collectionCode, String strFromDate, String strToDate) {
+    
+    JsonObject mappingJson = mappingFile.read(Util.getInstance()  
+                        .getMappingKey(institution, collectionCode));  
     
     String core = Util.getInstance().getIndexCore(institution);
     StringBuilder solrUrlSb = new StringBuilder();
@@ -80,7 +90,7 @@ public class SolrIndexBuilderLogic implements Serializable {
       
       log.info("start: {} --- end: {}", i, end); 
       JsonArray json = converter.convert(reader.fetchData(collectionCode, fromDate, toDate, ids.subList(i, end), isNrm),
-              institution, collectionCode);   
+              institution, collectionCode, mappingJson);   
       statusCode = indexBuilder.postToSolr(solrUrlSb.toString().trim(), json.toString());
    
       if(statusCode != successCode) {
