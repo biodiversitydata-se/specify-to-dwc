@@ -70,10 +70,10 @@ public class JsonHelperTest {
   public void testAddId() {
     System.out.println("addId");
      
-    String id = "15"; 
+    int id = 15; 
     instance.addId(attBuilder, id); 
      
-    assertEquals(id, attBuilder.build().getString("id")); 
+    assertEquals(id, attBuilder.build().getInt("id")); 
   }
 
   /**

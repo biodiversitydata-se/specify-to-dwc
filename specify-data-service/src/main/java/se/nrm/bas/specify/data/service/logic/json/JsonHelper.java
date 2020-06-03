@@ -30,7 +30,7 @@ public class JsonHelper {
     return type == JsonValue.ValueType.STRING;
   }
   
-  public void addId(JsonObjectBuilder attBuilder, String id) {
+  public void addId(JsonObjectBuilder attBuilder, int id) {
     attBuilder.add(idKey, id);
   }
 

@@ -46,7 +46,7 @@ public class JsonConverter implements Serializable {
  
     beans.stream()
             .forEach(bean -> {
-              JsonHelper.getInstance().addId(builder, bean.getIdentityString());
+              JsonHelper.getInstance().addId(builder, bean.getEntityId());
               
               map = new HashMap<>();
               mappingJson.keySet().stream()
