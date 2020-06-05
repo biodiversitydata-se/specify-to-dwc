@@ -30,8 +30,8 @@
       "collectingEvent": {
         "eventDate": "startDate",
         "eventTime": "startTime",
-        "startDayOfYear": "StartYear",
-        "endDayOfYear": "EndYear",
+        "startDayOfYear": "StartDayOfYear",
+        "endDayOfYear": "EndDayOfYear",
         "eventTime": "startTime",
         "verbatimEventDate": "verbatimDate",
         "eventRemarks": "remarks",
@@ -145,8 +145,8 @@
       "collectingEvent": {
         "eventDate": "startDate",
         "eventTime": "startTime",
-        "startDayOfYear": "StartYear",
-        "endDayOfYear": "EndYear",
+        "startDayOfYear": "StartDayOfYear",
+        "endDayOfYear": "EndDayOfYear",
         "verbatimEventDate": "verbatimDate",
         "eventRemarks": "remarks",
         "verbatimLocality": "verbatimLocality",
@@ -234,17 +234,3 @@
     }
   }
 ]
-
-
-
-
-
-
-// taxonRank=taxon.rankID, taxontreedefitem.name
-
-
-
-
-// previousIdentifications=determination.determinations
-
-

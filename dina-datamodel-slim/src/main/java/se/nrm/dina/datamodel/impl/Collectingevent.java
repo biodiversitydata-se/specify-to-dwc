@@ -141,16 +141,16 @@ public class Collectingevent extends BaseEntity {
     this.endDate = endDate;
   }
   
-  public int getStartYear() {
+  public int getStartDayOfYear() {
     cal = Calendar.getInstance();
     cal.setTime(startDate);
-    return cal.get(Calendar.YEAR); 
+    return cal.get(Calendar.DAY_OF_YEAR); 
   }
   
-  public int getEndYear() {
+  public int getEndDayOfYear() {
     cal = Calendar.getInstance();
     cal.setTime(endDate);
-    return cal.get(Calendar.YEAR); 
+    return cal.get(Calendar.DAY_OF_YEAR);  
   }
  
   public String getRemarks() {
