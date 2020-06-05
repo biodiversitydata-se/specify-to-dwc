@@ -2,7 +2,9 @@ package se.nrm.bas.specify.data.service.logic.data;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.After; 
@@ -38,6 +40,7 @@ public class DataReaderTest {
   private Date fromDate;
   private Date toDate;
   private boolean isNrm;
+  private Map<String, String> map;
   
   private List<Integer> mockedIdList; 
            
@@ -52,6 +55,7 @@ public class DataReaderTest {
     fromDate = Util.getInstance().stringToDate(strFromDate);
     toDate = Util.getInstance().stringToDate(strToDate); 
     isNrm = true;  
+    map = new HashMap();
   }
   
   @After
@@ -80,13 +84,15 @@ public class DataReaderTest {
     System.out.println("getCollectionIds");
     
     mockedIdList = Mockito.mock(ArrayList.class);
-    when(dao.findAllIds(any(Integer.class), any(Date.class), any(Date.class), any(Boolean.class))).thenReturn(mockedIdList);
+    when(dao.findAllIds(any(Integer.class), any(Date.class), any(Date.class), 
+            any(Boolean.class))).thenReturn(mockedIdList);
  
     instance = new DataReader(dao); 
     List<Integer> result = instance.getCollectionIds(collectionId, fromDate, toDate, isNrm);
     assertNotNull(result); 
     
-    verify(dao, times(1)).findAllIds(any(Integer.class), any(Date.class), any(Date.class), any(Boolean.class)); 
+    verify(dao, times(1)).findAllIds(any(Integer.class), any(Date.class), 
+            any(Date.class), any(Boolean.class)); 
   }
 
   /**
@@ -101,12 +107,14 @@ public class DataReaderTest {
  
     when(stream.collect(Collectors.toList())).thenReturn(list);
     
-    when(dao.findByCollectonId(any(Integer.class), any(Boolean.class), any(Date.class), any(Date.class), any(List.class))).thenReturn(stream);
-     
+    when(dao.findByCollectonId(any(Integer.class), any(Boolean.class), 
+            any(Date.class), any(Date.class), any(List.class), any(Map.class))).thenReturn(stream);
+      
     List<Integer> ids = new ArrayList();
     instance = new DataReader(dao); 
-    instance.fetchData(collectionId, fromDate, toDate, ids, isNrm);
-    verify(dao, times(1)).findByCollectonId(any(Integer.class), any(Boolean.class), any(Date.class), any(Date.class), any(List.class));
+    instance.fetchData(collectionId, fromDate, toDate, ids, isNrm, map);
+    verify(dao, times(1)).findByCollectonId(any(Integer.class), any(Boolean.class), 
+            any(Date.class), any(Date.class), any(List.class), any(Map.class));
   }
   
 }

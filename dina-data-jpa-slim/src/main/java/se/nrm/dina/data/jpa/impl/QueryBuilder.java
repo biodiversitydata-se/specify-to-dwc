@@ -37,7 +37,7 @@ class QueryBuilder {
   public String buildGetIdsQuery(Date startDate, Date toDate) {
     log.info("buildGetIdsQuery : {} -- {}", startDate, toDate);
     sb = new StringBuilder();
-    sb.append("SELECT c.collectionObjectID FROM Collectionobject c ");
+    sb.append("SELECT c.collectionObjectID FROM Collectionobject c "); 
     sb.append("WHERE c.collectionMemberID = :collectionMemberID ");
     if(startDate != null && toDate != null) {
       sb.append("AND c.timestampModified BETWEEN :fromDate AND :toDate ");
@@ -45,8 +45,8 @@ class QueryBuilder {
       sb.append("AND c.timestampModified > :fromDate ");
     } else if(startDate == null && toDate != null) {
       sb.append("AND c.timestampModified < :toDate ");
-    } 
-    sb.append("ORDER BY c.collectionObjectID");  
+    }   
+    sb.append("ORDER BY c.collectionObjectID");   
     return sb.toString();
   }
   
@@ -89,7 +89,8 @@ class QueryBuilder {
             .append("LEFT JOIN FETCH ptpppppppp.parent ptppppppppp ")
             .append("LEFT JOIN FETCH ptppppppppp.parent ptpppppppppp ") 
             .append("LEFT JOIN FETCH d.determiner ") 
-            .append("LEFT JOIN FETCH p.prepType ")   
+            .append("LEFT JOIN FETCH p.prepType ")  
+            .append("LEFT JOIN FETCH p.storage s ")
             .append("WHERE c.collectionMemberID = :collectionMemberID ")
             .append("AND d.isCurrent = 1 "); 
     return sb.toString();
@@ -101,7 +102,8 @@ class QueryBuilder {
    * @param isFilterWithIds
    * @return
    */
-  public String buildQuery(Date startDate, Date toDate, boolean filterWithIds) {
+  public String buildQuery(Date startDate, Date toDate, 
+          boolean filterWithIds, Map<String, String> filterMap) { 
     buildBaseQuery(); 
     if(startDate != null && toDate != null) {
       sb.append("AND c.timestampModified BETWEEN :fromDate AND :toDate ");
@@ -112,6 +114,19 @@ class QueryBuilder {
     } 
     if (filterWithIds) {
       sb.append("AND c.collectionObjectID in :ids ");
+    }
+    if(filterMap != null && !filterMap.isEmpty()) { 
+      filterMap.keySet()
+              .stream()
+              .forEach(key -> {
+                sb.append("AND (");
+                sb.append(key);
+                sb.append(" <> :");
+                sb.append(StringUtils.substringAfterLast(key, "."));
+                sb.append(" OR ");
+                sb.append(key); 
+                sb.append(" is Null) "); 
+              }); 
     }
     sb.append("ORDER BY c.collectionObjectID ");    
     return sb.toString();

@@ -24,11 +24,13 @@ public class JsonConverter implements Serializable {
 
   @Inject
   private EntityToJson entityToJson;
-
+  
   private JsonArrayBuilder arrayBuilder;
   private JsonObjectBuilder builder;
   
   private Map<String, List<String>> map; 
+  
+  private final String filterKey = "filters";
   
   public JsonConverter() {
     
@@ -43,13 +45,13 @@ public class JsonConverter implements Serializable {
  
     arrayBuilder = Json.createArrayBuilder();
     builder = Json.createObjectBuilder();
- 
+  
     beans.stream()
-            .forEach(bean -> {
-              JsonHelper.getInstance().addId(builder, bean.getEntityId());
-              
+            .forEach(bean -> {  
+              JsonHelper.getInstance().addId(builder, bean.getEntityId()); 
               map = new HashMap<>();
               mappingJson.keySet().stream()
+                      .filter(key -> !key.equals(filterKey))
                       .forEach(key -> {
                         if (JsonHelper.getInstance().isStringType(mappingJson.get(key).getValueType())) {
                           Object value = entityToJson.getStringValueFromEntity(bean, mappingJson.getString(key)); 

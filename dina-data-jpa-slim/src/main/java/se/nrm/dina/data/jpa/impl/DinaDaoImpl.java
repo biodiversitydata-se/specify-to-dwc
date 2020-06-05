@@ -3,6 +3,7 @@ package se.nrm.dina.data.jpa.impl;
 import java.io.Serializable; 
 import java.util.Date;
 import java.util.List; 
+import java.util.Map;
 import java.util.stream.Stream; 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query; 
 import lombok.extern.slf4j.Slf4j; 
+import org.apache.commons.lang.StringUtils;
 import se.nrm.dina.data.jpa.DinaDao;  
 import se.nrm.dina.datamodel.EntityBean; 
 
@@ -55,12 +57,13 @@ public class DinaDaoImpl<T extends EntityBean> implements DinaDao<T>, Serializab
   private EntityManager getEntityManager(boolean isNrm) {
     return isNrm ? nrmEntityManager : gnmEntityManager;
   }
- 
+  
   @Override
-  public Stream<T> findByCollectonId(int collectionId, boolean isNrm, Date fromDate, Date toDate, List<Integer> ids) {
+  public Stream<T> findByCollectonId(int collectionId, boolean isNrm, Date fromDate,
+          Date toDate, List<Integer> ids, Map<String, String> filterMap) {
     query = getEntityManager(isNrm)
             .createQuery(QueryBuilder.getInstance()
-                    .buildQuery(fromDate, toDate, ids != null))
+                    .buildQuery(fromDate, toDate, ids != null, filterMap))
             .setParameter(collectionMemberId, collectionId);
 
     if (fromDate != null) {
@@ -74,10 +77,18 @@ public class DinaDaoImpl<T extends EntityBean> implements DinaDao<T>, Serializab
     if (ids != null) {
       query.setParameter(idsKey, ids);
     }
+    
+    if(filterMap != null && !filterMap.isEmpty()) {
+      filterMap.keySet()
+              .stream()
+              .forEach(key -> {
+                query.setParameter(StringUtils.substringAfterLast(key, "."), filterMap.get(key).trim());
+              });
+      
+    }
     return query.getResultStream();
   }
-  
-  
+   
   @Override
   public List<Integer> findAllIds(int collectionMemberID, Date fromDate, Date toDate, boolean isNrm) {
     

@@ -65,7 +65,7 @@ public class Storage extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Storage accepted;
 
-  @JoinColumn(name = "StorageTreeDefItem", referencedColumnName = "StorageTreeDefItemID")
+  @JoinColumn(name = "StorageTreeDefItemID", referencedColumnName = "StorageTreeDefItemID")
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   private Storagetreedefitem storageTreeDefItem;
 

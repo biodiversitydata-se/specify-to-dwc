@@ -1,13 +1,20 @@
 package se.nrm.bas.specify.data.service.logic;
   
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;  
+import java.util.Map;
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import org.junit.After; 
+import org.junit.AfterClass;
 import org.junit.Before; 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -57,6 +64,9 @@ public class SolrIndexBuilderLogicTest {
   private MappingFileReader mappingFileReader;
    
    
+  private static JsonObject json;
+  private static Map<String, String> map;
+    
   public SolrIndexBuilderLogicTest() {
   }
   
@@ -67,7 +77,32 @@ public class SolrIndexBuilderLogicTest {
     testBean.setS((short) 18);
     testBean.setBgDecimal(BigDecimal.valueOf(18.7)); 
     testBean.setIsTrue(true);  
+    
+    
+    String mappingFilePath = "src/test/resources/mapping.json";  
+    try {
+      fis = new FileInputStream(mappingFilePath);  
+    } catch (FileNotFoundException ex) {
+      System.out.println("error" + ex.getMessage());
+    }
+    json = Json.createReader(fis).readObject(); 
+    
+    map = new HashMap();
   }
+  
+    
+    
+  @AfterClass
+  public static void tearDownClass() {
+    if(fis != null) {
+      try {
+        fis.close();
+      } catch (IOException ex) {
+      }
+    }
+    json = null;
+  }
+  
   
  
   @Before
@@ -81,13 +116,14 @@ public class SolrIndexBuilderLogicTest {
     
     String solrPath = "http://localhost:8983";
     when(properties.getSolrPath()).thenReturn(solrPath);  
+    when(mappingFileReader.read(any(String.class))).thenReturn(json);
   }
   
   @After
   public void tearDown() {
     instance = null;
   }
-  
+
   @Test
   public void testDefaultConstructor() {
     instance = new SolrIndexBuilderLogic();
@@ -132,11 +168,14 @@ public class SolrIndexBuilderLogicTest {
     list.add(new Testentity(80));
     list.add(new Testentity(81));
     list.add(new Testentity(82));
+     
     
-    when(reader.getCollectionIds(any(Integer.class), any(Date.class), any(Date.class), any(Boolean.class))).thenReturn(ids);
-    when(reader.fetchData(collectionCode, fromDate, toDate, ids, isNrm)).thenReturn(list); 
+    when(reader.getCollectionIds(any(Integer.class), any(Date.class), 
+            any(Date.class), any(Boolean.class))).thenReturn(ids);
+    when(reader.fetchData(collectionCode, fromDate, toDate, ids, isNrm, null)).thenReturn(list); 
     when(converter.convert(any(List.class), any(String.class), any(Integer.class), any(JsonObject.class))).thenReturn(JsonValue.EMPTY_JSON_ARRAY); 
     when(indexBuilder.postToSolr(any(String.class), any(String.class))).thenReturn(200); 
+  
      
     instance = new SolrIndexBuilderLogic(reader, converter, indexBuilder, properties, mappingFileReader);
     instance.init();
@@ -144,8 +183,9 @@ public class SolrIndexBuilderLogicTest {
     int result = instance.run(institution, collectionCode, strFromDate, strToDate);
     assertEquals(200, result); 
      
-    verify(reader, times(1)).getCollectionIds(any(Integer.class), any(Date.class), any(Date.class), any(Boolean.class)); 
-    verify(reader, times(1)).fetchData(collectionCode, fromDate, toDate, ids, isNrm); 
+    verify(reader, times(1)).getCollectionIds(any(Integer.class), 
+            any(Date.class), any(Date.class), any(Boolean.class)); 
+    verify(reader, times(1)).fetchData(collectionCode, fromDate, toDate, ids, isNrm, map); 
     verify(converter, times(1)).convert(any(List.class), any(String.class), any(Integer.class), any(JsonObject.class)); 
     verify(indexBuilder, times(1)).postToSolr(any(String.class), any(String.class)); 
   }
@@ -166,8 +206,9 @@ public class SolrIndexBuilderLogicTest {
     list.add(new Testentity(81));
     list.add(new Testentity(82));
     
-    when(reader.getCollectionIds(any(Integer.class), any(Date.class), any(Date.class), any(Boolean.class))).thenReturn(ids);
-    when(reader.fetchData(collectionCode, fromDate, toDate, ids, isNrm)).thenReturn(list); 
+    when(reader.getCollectionIds(any(Integer.class), any(Date.class), 
+            any(Date.class), any(Boolean.class))).thenReturn(ids);
+    when(reader.fetchData(collectionCode, fromDate, toDate, ids, isNrm, null)).thenReturn(list); 
     when(converter.convert(any(List.class), any(String.class), any(Integer.class), any(JsonObject.class))).thenReturn(JsonValue.EMPTY_JSON_ARRAY); 
     when(indexBuilder.postToSolr(any(String.class), any(String.class))).thenReturn(400); 
      
@@ -175,8 +216,9 @@ public class SolrIndexBuilderLogicTest {
     int result = instance.run(institution, collectionCode, strFromDate, strToDate);
     assertEquals(400, result); 
     
-    verify(reader, times(1)).getCollectionIds(any(Integer.class), any(Date.class), any(Date.class), any(Boolean.class)); 
-    verify(reader, times(1)).fetchData(collectionCode, fromDate, toDate, ids, isNrm); 
+    verify(reader, times(1)).getCollectionIds(any(Integer.class), 
+            any(Date.class), any(Date.class), any(Boolean.class)); 
+    verify(reader, times(1)).fetchData(collectionCode, fromDate, toDate, ids, isNrm, map); 
     verify(converter, times(1)).convert(any(List.class), any(String.class), any(Integer.class), any(JsonObject.class)); 
     verify(indexBuilder, times(1)).postToSolr(any(String.class), any(String.class)); 
   }
@@ -194,8 +236,9 @@ public class SolrIndexBuilderLogicTest {
     list.add(new Testentity(81));
     list.add(new Testentity(82));
     
-    when(reader.getCollectionIds(any(Integer.class), any(Date.class), any(Date.class), any(Boolean.class))).thenReturn(ids); 
-    when(reader.fetchData(collectionCode, fromDate, toDate, ids, true)).thenReturn(list); 
+    when(reader.getCollectionIds(any(Integer.class), any(Date.class), 
+            any(Date.class), any(Boolean.class))).thenReturn(ids); 
+    when(reader.fetchData(collectionCode, fromDate, toDate, ids, true, null)).thenReturn(list); 
     when(converter.convert(any(List.class), any(String.class), any(Integer.class), any(JsonObject.class))).thenReturn(JsonValue.EMPTY_JSON_ARRAY); 
     when(indexBuilder.postToSolr(any(String.class), any(String.class))).thenReturn(200); 
    
@@ -203,8 +246,9 @@ public class SolrIndexBuilderLogicTest {
     int result = instance.run(institution, collectionCode, strFromDate, strToDate); 
     assertEquals(200, result); 
     
-    verify(reader, times(1)).getCollectionIds(any(Integer.class), any(Date.class), any(Date.class), any(Boolean.class)); 
-    verify(reader, times(3)).fetchData(any(Integer.class), any(Date.class), any(Date.class), any(List.class), any(Boolean.class)); 
+    verify(reader, times(1)).getCollectionIds(any(Integer.class), 
+            any(Date.class), any(Date.class), any(Boolean.class)); 
+    verify(reader, times(3)).fetchData(any(Integer.class), any(Date.class), any(Date.class), any(List.class), any(Boolean.class), any(Map.class)); 
     verify(converter, times(3)).convert(any(List.class), any(String.class), any(Integer.class), any(JsonObject.class)); 
     verify(indexBuilder, times(3)).postToSolr(any(String.class), any(String.class)); 
   }

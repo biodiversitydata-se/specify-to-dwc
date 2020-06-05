@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -47,6 +49,7 @@ public class DinaDaoImplTest {
   private static Date toDate;
   private static List<Integer> ids;
   private static Number count;
+  private static Map<String, String> map;
    
   public DinaDaoImplTest() {
   }
@@ -66,6 +69,8 @@ public class DinaDaoImplTest {
     ids.add(335); 
     
     count = 500;
+    
+    map = new HashMap();
   }
   
   @AfterClass
@@ -119,7 +124,7 @@ public class DinaDaoImplTest {
     boolean isNrm = true;    
     
     dao = new DinaDaoImpl(nrmEntityManager, gnmEntityManager); 
-    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, toDate, ids);
+    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, toDate, ids, null);
     
     verify(nrmEntityManager, times(1)).createQuery(any(String.class)); 
     verify(gnmEntityManager, never()).createQuery(any(String.class)); 
@@ -139,7 +144,7 @@ public class DinaDaoImplTest {
     boolean isNrm = true;    
     
     dao = new DinaDaoImpl(nrmEntityManager, gnmEntityManager); 
-    Stream result = dao.findByCollectonId(collectionId, isNrm, null, toDate, ids);
+    Stream result = dao.findByCollectonId(collectionId, isNrm, null, toDate, ids, null);
     
     verify(nrmEntityManager, times(1)).createQuery(any(String.class)); 
     verify(gnmEntityManager, never()).createQuery(any(String.class)); 
@@ -158,7 +163,7 @@ public class DinaDaoImplTest {
     boolean isNrm = true;    
     
     dao = new DinaDaoImpl(nrmEntityManager, gnmEntityManager); 
-    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, null, ids);
+    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, null, ids, null);
     
     verify(nrmEntityManager, times(1)).createQuery(any(String.class)); 
     verify(gnmEntityManager, never()).createQuery(any(String.class)); 
@@ -177,7 +182,7 @@ public class DinaDaoImplTest {
     boolean isNrm = true;    
     
     dao = new DinaDaoImpl(nrmEntityManager, gnmEntityManager); 
-    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, toDate, null);
+    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, toDate, null, null);
     
     verify(nrmEntityManager, times(1)).createQuery(any(String.class)); 
     verify(gnmEntityManager, never()).createQuery(any(String.class)); 
@@ -196,7 +201,7 @@ public class DinaDaoImplTest {
     boolean isNrm = false;    
     
     dao = new DinaDaoImpl(nrmEntityManager, gnmEntityManager); 
-    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, toDate, ids);
+    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, toDate, ids, null);
     
     verify(nrmEntityManager, never()).createQuery(any(String.class)); 
     verify(gnmEntityManager, times(1)).createQuery(any(String.class)); 
@@ -215,7 +220,7 @@ public class DinaDaoImplTest {
     boolean isNrm = false;    
     
     dao = new DinaDaoImpl(nrmEntityManager, gnmEntityManager); 
-    Stream result = dao.findByCollectonId(collectionId, isNrm, null, toDate, ids);
+    Stream result = dao.findByCollectonId(collectionId, isNrm, null, toDate, ids, null);
     
     verify(nrmEntityManager, never()).createQuery(any(String.class)); 
     verify(gnmEntityManager, times(1)).createQuery(any(String.class)); 
@@ -234,7 +239,7 @@ public class DinaDaoImplTest {
     boolean isNrm = false;    
     
     dao = new DinaDaoImpl(nrmEntityManager, gnmEntityManager); 
-    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, null, ids);
+    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, null, ids, null);
     
     verify(nrmEntityManager, never()).createQuery(any(String.class)); 
     verify(gnmEntityManager, times(1)).createQuery(any(String.class)); 
@@ -253,7 +258,7 @@ public class DinaDaoImplTest {
     boolean isNrm = false;    
     
     dao = new DinaDaoImpl(nrmEntityManager, gnmEntityManager); 
-    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, toDate, null);
+    Stream result = dao.findByCollectonId(collectionId, isNrm, fromDate, toDate, null, null);
     
     verify(nrmEntityManager, never()).createQuery(any(String.class)); 
     verify(gnmEntityManager, times(1)).createQuery(any(String.class)); 

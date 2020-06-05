@@ -2,6 +2,7 @@ package se.nrm.dina.data.jpa;
  
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import se.nrm.dina.datamodel.EntityBean;
 
@@ -12,7 +13,8 @@ import se.nrm.dina.datamodel.EntityBean;
  */
 public interface DinaDao<T extends EntityBean> {
   
-  public Stream<T> findByCollectonId(int collectionId, boolean isNrm, Date fromDate, Date toDate, List<Integer> ids);
+  public Stream<T> findByCollectonId(int collectionId, boolean isNrm, Date fromDate, 
+          Date toDate, List<Integer> ids, Map<String, String> filterMap);
   public List<Integer> findAllIds(int collectionCode, Date fromDate, Date toDate, boolean isNrm);  
   public Stream<T> findAll(Class<T> clazz, boolean isNrm);  
   public int getCollectionCount(int collectionId, boolean isNrm);  

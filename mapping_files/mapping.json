@@ -227,6 +227,9 @@
         "prepType": {
           "preparations": "name"
         }
+      },
+      "filters": {
+        "s.fullName": "Working Collections - On Loan to Staff, NRM Entomologi, DINA samlingar"
       }
     }
   }

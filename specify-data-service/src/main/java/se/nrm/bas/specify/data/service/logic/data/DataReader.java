@@ -3,6 +3,7 @@ package se.nrm.bas.specify.data.service.logic.data;
 import java.io.Serializable; 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.ejb.EJB; 
@@ -30,9 +31,10 @@ public class DataReader implements Serializable {
     return dao.findAllIds(collectionId, fromDate, toDate, isNrm);
   }
 
-  public List<EntityBean> fetchData(int collectionId, Date fromDate, Date toDate, List<Integer> ids, boolean isNrm) { 
+  public List<EntityBean> fetchData(int collectionId, Date fromDate, 
+          Date toDate, List<Integer> ids, boolean isNrm, Map<String, String> filterMap) { 
     return ((Stream<EntityBean>) dao
-            .findByCollectonId(collectionId, isNrm, fromDate, toDate, ids))
+            .findByCollectonId(collectionId, isNrm, fromDate, toDate, ids, filterMap))
             .collect(Collectors.toList());
   }
 }
