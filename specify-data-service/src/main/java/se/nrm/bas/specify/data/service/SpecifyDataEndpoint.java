@@ -45,7 +45,7 @@ public class SpecifyDataEndpoint {
           response = String.class
   )
   @Produces(MediaType.APPLICATION_JSON)
-  public synchronized void run(@QueryParam("inst") String institution,
+  public void run(@QueryParam("inst") String institution,
           @QueryParam("collCode") int collectionCode,
           @QueryParam("from") String fromDate,
           @QueryParam("to") String toDate, @Suspended AsyncResponse asycResponse) {  
