@@ -4,7 +4,7 @@ services:
 
 
   specifyService:
-    image: dina/specify-service:v0.1
+    image: dina/specify-service:v0.3
     container_name: specifyService
     restart: always
     depends_on:
