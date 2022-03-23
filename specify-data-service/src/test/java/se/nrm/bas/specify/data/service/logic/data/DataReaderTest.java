@@ -111,6 +111,7 @@ public class DataReaderTest {
             any(Date.class), any(Date.class), any(List.class), any(Map.class))).thenReturn(stream);
       
     List<Integer> ids = new ArrayList();
+    ids.add(10);
     instance = new DataReader(dao); 
     instance.fetchData(collectionId, fromDate, toDate, ids, isNrm, map);
     verify(dao, times(1)).findByCollectonId(any(Integer.class), any(Boolean.class), 
