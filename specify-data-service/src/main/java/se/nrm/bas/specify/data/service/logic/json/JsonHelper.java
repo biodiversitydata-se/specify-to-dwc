@@ -1,7 +1,7 @@
 package se.nrm.bas.specify.data.service.logic.json;
 
 import java.math.BigDecimal;
-import java.util.Date; 
+import java.util.Date;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 import javax.json.JsonValue.ValueType; 
@@ -10,7 +10,7 @@ import se.nrm.bas.specify.data.service.logic.util.Util;
 /**
  *
  * @author idali
- */
+ */ 
 public class JsonHelper {
   
   private static JsonHelper instance = null;
@@ -36,7 +36,7 @@ public class JsonHelper {
 
   
   public void addAttributes(JsonObjectBuilder attBuilder, String key, Object value) {
-    
+ 
     if (value instanceof Integer) {
       attBuilder.add(key, (int) value);
     } else if (value instanceof Short) {
@@ -45,8 +45,12 @@ public class JsonHelper {
       attBuilder.add(key, Util.getInstance().dateToString((Date) value));
     } else if (value instanceof java.util.Date) {
       attBuilder.add(key, Util.getInstance().dateToString((java.util.Date) value));
-    } else if (value instanceof BigDecimal) {
-      attBuilder.add(key, (BigDecimal) value);
+    } else if (value instanceof BigDecimal) { 
+      if(((BigDecimal) value).compareTo(BigDecimal.ZERO) == 0) { 
+        attBuilder.add(key, 0.00 );
+      } else {
+        attBuilder.add(key, (BigDecimal) value);
+      } 
     } else if (value instanceof Boolean) {
       attBuilder.add(key, (Boolean) value);
     } else if (value instanceof Double) {
