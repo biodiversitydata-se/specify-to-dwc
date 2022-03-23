@@ -91,8 +91,9 @@ class QueryBuilder {
             .append("LEFT JOIN FETCH d.determiner ") 
             .append("LEFT JOIN FETCH p.prepType ")  
             .append("LEFT JOIN FETCH p.storage s ")
-            .append("WHERE c.collectionMemberID = :collectionMemberID ")
-            .append("AND d.isCurrent = 1 "); 
+            .append("WHERE c.collectionMemberID = :collectionMemberID ");
+    
+//            .append("AND d.isCurrent = 1 "); 
     return sb.toString();
   }
    
@@ -102,9 +103,11 @@ class QueryBuilder {
    * @param isFilterWithIds
    * @return
    */
-  public String buildQuery(Date startDate, Date toDate, 
-          boolean filterWithIds, Map<String, String> filterMap) { 
+  public String buildQuery(Date startDate, Date toDate, boolean filterWithIds, 
+          Map<String, String> filterMap) {  
+       
     buildBaseQuery(); 
+ 
     if(startDate != null && toDate != null) {
       sb.append("AND c.timestampModified BETWEEN :fromDate AND :toDate ");
     } else if(startDate != null && toDate == null) {
@@ -124,7 +127,7 @@ class QueryBuilder {
                 sb.append(" <> :");
                 sb.append(StringUtils.substringAfterLast(key, "."));
                 sb.append(" OR ");
-                sb.append(key); 
+                sb.append(key);
                 sb.append(" is Null) "); 
               }); 
     }
