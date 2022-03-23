@@ -15,6 +15,7 @@ import se.nrm.bas.specify.data.service.logic.json.JsonConverter;
 import se.nrm.bas.specify.data.service.logic.propertyfiles.MappingFileReader;
 import se.nrm.bas.specify.data.service.logic.util.Util;
 import se.nrm.bas.specify.data.service.solr.SolrIndexBuilder;  
+import se.nrm.dina.datamodel.EntityBean;
 
 /**
  *
@@ -101,11 +102,14 @@ public class SolrIndexBuilderLogic implements Serializable {
       end = i + batch <= total ? i + batch : total;
 
       log.info("start: {} --- end: {}", i, end);   
-      JsonArray json = converter.convert(reader.fetchData(collectionCode, 
-              fromDate, toDate, ids.subList(i, end), isNrm, filterMap), institution, collectionCode, mappingJson);
+      List<EntityBean> entities = reader.fetchData(collectionCode, 
+              fromDate, toDate, ids.subList(i, end), isNrm, filterMap);
+      log.info("entities size : {}", entities.size());
+    
+      JsonArray json = converter.convert(entities, institution, collectionCode, mappingJson); 
  
+      log.info("checkout post: num post to solr: {} ", json.size() );
       statusCode = indexBuilder.postToSolr(solrUrlSb.toString().trim(), json.toString());
-
       if (statusCode != successCode) {
         solrPostStatusCode = statusCode;
       }
