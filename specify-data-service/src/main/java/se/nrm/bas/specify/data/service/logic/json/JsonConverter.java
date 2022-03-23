@@ -31,6 +31,7 @@ public class JsonConverter implements Serializable {
   private Map<String, List<String>> map; 
   
   private final String filterKey = "filters";
+  private final String determinations = "determinations";
   
   public JsonConverter() {
     
@@ -42,12 +43,12 @@ public class JsonConverter implements Serializable {
     
   public JsonArray convert(List<EntityBean> beans, String institution, 
           int collectionId,  JsonObject mappingJson) {  
- 
+    log.info("convert: total number: {}", beans.size());
     arrayBuilder = Json.createArrayBuilder();
     builder = Json.createObjectBuilder();
   
     beans.stream()
-            .forEach(bean -> {  
+            .forEach(bean -> {
               JsonHelper.getInstance().addId(builder, bean.getEntityId()); 
               map = new HashMap<>();
               mappingJson.keySet().stream()
@@ -59,9 +60,14 @@ public class JsonConverter implements Serializable {
                             JsonHelper.getInstance().addAttributes(builder, key, value);
                           }
                         } else {  
-                          if (ReflectionHelper.getInstance().isCollection(bean.getClass(), key)) {
+                          if (ReflectionHelper.getInstance().isCollection(bean.getClass(), key)) { 
                             List<EntityBean> list = ReflectionHelper.getInstance().getChildListFromParent(bean, key); 
-                            entityToJson.convertEntitiesToJson(builder, mappingJson.getJsonObject(key), list, map);  
+                            if(key.equals(determinations)) {
+                              entityToJson.convertEntityToJson(builder, mappingJson.getJsonObject(key), list, map);
+                            } else {
+                              entityToJson.convertEntitiesToJson(builder, mappingJson.getJsonObject(key), list, map);  
+                            } 
+//                            entityToJson.convertEntitiesToJson(builder, mappingJson.getJsonObject(key), list, map);  
                           } else {
                             EntityBean child = (EntityBean) ReflectionHelper.getInstance().getChildFromParent(bean, key); 
                             if (child != null) {
@@ -69,7 +75,7 @@ public class JsonConverter implements Serializable {
                             }
                           } 
                   } 
-              });  
+              });
               arrayBuilder.add(builder);
             }); 
     return arrayBuilder.build(); 
