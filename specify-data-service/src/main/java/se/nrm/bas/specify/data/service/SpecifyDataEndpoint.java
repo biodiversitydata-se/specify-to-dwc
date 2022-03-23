@@ -50,7 +50,8 @@ public class SpecifyDataEndpoint {
           @QueryParam("from") String fromDate,
           @QueryParam("to") String toDate, @Suspended AsyncResponse asycResponse) {  
     
-    log.info("Initially invoked on thread - {} . This will free up soon !", Thread.currentThread().getName());
+    log.info("Initially invoked on thread - {} . This will free up soon !", 
+            Thread.currentThread().getName());
      
     Response response;
     if(institution == null || institution.isEmpty()) {
