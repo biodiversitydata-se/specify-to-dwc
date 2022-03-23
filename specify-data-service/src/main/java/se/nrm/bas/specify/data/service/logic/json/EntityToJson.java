@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List; 
 import java.util.Map;  
+import java.util.Optional;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import lombok.extern.slf4j.Slf4j; 
 import se.nrm.bas.specify.data.service.logic.reflection.ReflectionHelper;
 import se.nrm.bas.specify.data.service.logic.util.Util;
 import se.nrm.dina.datamodel.EntityBean;
+import se.nrm.dina.datamodel.impl.Determination;
 
 /**
  *
@@ -35,14 +37,14 @@ public class EntityToJson implements Serializable {
                   if(isCollection) {
                     List<String> list;
                     if(map.containsKey(key)) {
-                      list = map.get(key); 
+                      list = map.get(key);
                     } else {
-                      list = new ArrayList();  
+                      list = new ArrayList();
                     } 
                     list.add(Util.getInstance().convertDataValueToString(value));
                     map.put(key, list);
-                  } else { 
-                    JsonHelper.getInstance().addAttributes(builder, key, value);  
+                  } else {
+                    JsonHelper.getInstance().addAttributes(builder, key, value);
                   } 
                 } 
               } else {
@@ -58,9 +60,26 @@ public class EntityToJson implements Serializable {
               }
             });
   }
+
+  public void convertEntityToJson(JsonObjectBuilder builder, JsonObject json,
+          List<EntityBean> beans, Map<String, List<String>> map) { 
+    if (!beans.isEmpty()) {  
+      
+      Optional<Determination> result = beans.stream()
+                .map(b -> (Determination) b)
+                .filter(d -> d.getIsCurrent() == true)
+                .findFirst(); 
+      
+      Determination determination = result.isPresent() 
+              ? result.get() : (Determination) beans.get(0); 
+      
+      convertEntityToJson(builder, json, determination, map, false);
+    }
+  }
    
   public void convertEntitiesToJson(JsonObjectBuilder builder, JsonObject json, 
           List<EntityBean> beans, Map<String, List<String>> map) { 
+//    log.info("convertEntitiesToJson");
     isCollection = true;  
     beans.stream()
             .forEach(bean -> { 
